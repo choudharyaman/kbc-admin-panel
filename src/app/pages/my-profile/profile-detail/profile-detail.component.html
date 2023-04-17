@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h2>My Profile</h2>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col-3">
+      <mat-card class="profile-card">
+        <mat-card-content class="text-center">
+          <img alt="Profile Icon" class="profile-avatar" src="assets/images/icon-profile-avatar-default.png">
+          <br>
+          <h2 class="text-primary">{{ profile.first_name }} {{ profile.last_name }}</h2>
+          <strong>{{ profile.role.replace('_', ' ') }}</strong>
+          <br>
+          <small class="text-secondary">{{ profile.created_at | date: 'medium' }}</small>
+          <hr>
+          <button mat-stroked-button color="primary" (click)="onChangePassword()">
+            <mat-icon>lock</mat-icon>
+            Change Password
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-9">
+      <mat-card>
+        <mat-card-content>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+            <mat-tab label="Login Activities" *ngIf="enableLA">
+              <table class="table table-hover table-striped">
+                <tr>
+                  <th>#</th>
+                  <th>Login IP</th>
+                  <th>Login Device</th>
+                  <th>Channel</th>
+                  <th>Login ?</th>
+                  <th>Time</th>
+                </tr>
+                <tr *ngIf="loginActivities.length==0">
+                  <td colspan="5" class="text-center text-secondary">No Activities</td>
+                </tr>
+                <tr *ngFor="let la of loginActivities; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ la.ip_address }}</td>
+                  <td>{{ la.device }} ({{ la.os }} - {{ la.os_version }})</td>
+                  <td>{{ la.app_channel }}</td>
+                  <td>
+              <span class="badge"
+                    [ngClass]="{
+                    'bg-warning': la.status === loginStatuses.ATTEMPTED,
+                    'bg-danger': la.status === loginStatuses.FAILED,
+                    'bg-success': la.status === loginStatuses.SUCCESS}">
+                {{ la.status | titlecase }}
+              </span>
+                  </td>
+                  <td><small>{{ la.created_at | date: 'medium' }}</small></td>
+                </tr>
+              </table>
+              <div class="text-center mb-1">
+                <button mat-stroked-button *ngIf="laPaginator.next_page"
+                        (click)="fetchLoginActivities(laPaginator.current_page + 1, laPaginator.page_size)">
+                  Load More Activities
+                </button>
+              </div>
+            </mat-tab>
+            <mat-tab label="User Activities" *ngIf="enableUA">
+              <table class="table table-bordered">
+                <tr>
+                  <th>#</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Device IP</th>
+                  <th>Device</th>
+                  <th>Time</th>
+                </tr>
+                <tr *ngIf="userActivities.length==0">
+                  <td colspan="6" class="text-center text-secondary">No Activities</td>
+                </tr>
+                <tr *ngFor="let ua of userActivities; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ ua.type }}</td>
+                  <td><small>{{ ua.description }}</small></td>
+                  <td>{{ ua.ip_address }}</td>
+                  <td>{{ ua.device }}</td>
+                  <td><small>{{ ua.created_at | date: 'medium' }}</small></td>
+                </tr>
+              </table>
+              <div class="text-center mb-1">
+                <button mat-stroked-button *ngIf="uaPaginator.next_page"
+                        (click)="fetchUserActivities(uaPaginator.current_page+1, uaPaginator.page_size)">
+                  Load More Activities
+                </button>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

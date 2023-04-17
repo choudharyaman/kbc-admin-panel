@@ -1,0 +1,16 @@
+.img-container {
+  padding: 5px;
+  border: 1px solid #9a9a9a;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  position: relative;
+
+  .img-upload-spinner p {
+    color: #fff;
+    margin-top: 50px
+  }
+}
+
+.img-upload-instruction {
+  font-size: 12px;
+}

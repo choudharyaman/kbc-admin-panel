@@ -1,0 +1,64 @@
+<div class="login-outer-container" style="background-image: url('assets/images/bg-auth.jpg')">
+  <div class="login-inner-container">
+    <div class="logo">
+      <img src="assets/images/kbc-logo.jpeg" alt="KBC Logo">
+    </div>
+    <mat-card class="login-box">
+      <ngx-spinner [fullScreen]="false" type="ball-scale-pulse" size="medium" name="loginSpinner" class="snippet-spinner">
+        <p>Authenticating</p>
+      </ngx-spinner>
+      <mat-card-header>
+        <mat-card-title class="mat-text-primary">
+          <small>Login to</small> Drug Mart Control Panel
+        </mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+
+        <div class="alert alert-danger text-center">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span style="position: relative; top: -6px;">
+            Please <b >login</b> to access the panel
+          </span>
+        </div>
+
+        <form [formGroup]="form">
+          <mat-form-field appearance="outline" style="margin-bottom: 20px">
+            <mat-label>Enter your email</mat-label>
+            <input matInput placeholder="manager@example.com" required formControlName="username">
+            <mat-error *ngIf="form.controls['username'].hasError('required')">Email is <b>required</b></mat-error>
+            <mat-error *ngIf="form.controls['username'].hasError('email')">Please enter a valid email</mat-error>
+            <mat-error *ngIf="form.controls['username'].hasError('serverError')">
+              {{ form.controls['username'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'"
+                   required formControlName="password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="form.controls['password'].hasError('required')">Password is <b>required</b></mat-error>
+            <mat-error *ngIf="form.controls['password'].hasError('minlength')">
+              Password should contain atleast 8 characters</mat-error>
+            <mat-error *ngIf="form.controls['password'].hasError('serverError')">
+              {{ form.controls['password'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button (click)="onForgotPassword()">Forgot Password?</button>
+        &nbsp;&nbsp;
+        <button mat-flat-button color="accent" (click)="onLogin()" [disabled]="form.invalid">Login</button>
+      </mat-card-actions>
+      <mat-divider></mat-divider>
+      <mat-card-footer>
+        Kumar Brothers (Chemists) Private Limited
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
+

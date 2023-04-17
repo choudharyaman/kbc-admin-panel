@@ -1,0 +1,25 @@
+.table {
+  background-color: #fff
+}
+
+.category-thumbnail {
+  height: 50px;
+  margin: 3px;
+  border-radius: 3px
+}
+
+.table td, .table th {
+  vertical-align: middle !important
+}
+
+.table thead > tr > th {
+  color: rgba(0, 0, 0, .54);
+  font-size: 12px;
+  font-weight: 500;
+  padding-top: 15px;
+  padding-bottom: 15px
+}
+
+.table tbody > tr > td:first-child, .table thead > tr > th:first-child {
+  padding-left: 24px
+}

@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <h2> Customer: <span class="mat-text-primary">{{ customer.first_name }} {{ customer.last_name }}</span></h2>
+    </div>
+    <div class="col-6">
+
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+
+  <div class="row">
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title"><span>New Orders</span><span>&nbsp;</span></div>
+        <div class="metrics-number">{{ customer.metrics.new_orders }}</div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title"><span>In Process</span><span>Order(s)</span></div>
+        <div class="metrics-number">{{ customer.metrics.in_progress_orders }}</div>
+      </mat-card>
+    </div>
+    <div class="col-3">
+      <mat-card class="metrics-card">
+        <div class="metrics-title"><span>Order Value</span><span>lifetime</span></div>
+        <div class="metrics-number">{{ customer.metrics.total_order_amount | currency }}</div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title"><span>Orders</span><span>lifetime</span></div>
+        <div class="metrics-number">{{ customer.metrics.total_orders }}</div>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-8">
+      <mat-card style="padding: 0 0 30px 0;">
+        <mat-card-content>
+          <h2 class="text-primary">Order History</h2>
+        </mat-card-content>
+        <!--        <mat-tab-group>-->
+        <!--          <mat-tab>-->
+        <!--            <ng-template mat-tab-label>-->
+        <!--              <mat-icon>shopping_bag</mat-icon>&nbsp;-->
+        <!--              Orders ({{ orders.records }})-->
+        <!--            </ng-template>-->
+        <!--            <br>-->
+        <!--            <app-list-orders-snippet [ordersOf]="'CUSTOMER'" [ofId]="customerId"-->
+        <!--                                     [ofObject]="customer" [orders]="orders">-->
+        <!--            </app-list-orders-snippet>-->
+
+        <!--          </mat-tab>-->
+        <!--        </mat-tab-group>-->
+      </mat-card>
+      <div class="row">
+        <div class="col-5">
+
+        </div>
+        <div class="col-7">
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <mat-card class="mat-card profile-detail">
+        <mat-card-content class="mat-card-content">
+          <mat-list>
+            <mat-list-item>
+              <div *ngIf="customer.is_blocked">
+                <span class="badge bg-danger text-uppercase" [matTooltip]="'Reason: '+customer.blocked_remark">
+                  user blocked
+                </span>
+              </div>
+              <div>
+                <span class="badge bg-success text-uppercase" *ngIf="customer.is_registered">
+                registered customer</span>
+                <span class="badge bg-danger text-uppercase" *ngIf="!customer.is_registered">
+                unregistered customer</span>
+              </div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListItemIcon color="accent">emoji_emotions</mat-icon>
+              <div matListItemTitle>{{ customer.first_name }} {{ customer.last_name }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListItemIcon color="accent">phone_iphone</mat-icon>
+              <div matListItemTitle> +{{ customer.phone_country_code }}-{{ customer.phone_number }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListItemIcon color="accent">contact_mail</mat-icon>
+              <div matListItemTitle>{{ customer.email }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <br>
+        <mat-card-content>
+          <div class="text-center">
+            <button mat-stroked-button color="accent" (click)="onOpenUserActivities()">
+              <mat-icon>timeline</mat-icon>
+              See User Activities
+            </button>
+            &nbsp;&nbsp;&nbsp;
+
+            <!-- Block Btn -->
+            <button mat-flat-button color="warn"
+                    *ngIf="!customer.is_blocked" (click)="onBlockUser(true, customer.user)">
+              <mat-icon>block</mat-icon>
+              Block User
+            </button>
+            <!-- UnBlock Btn -->
+            <button mat-flat-button color="primary"
+                    *ngIf="customer.is_blocked" (click)="onBlockUser(false, customer.user)">
+              <mat-icon>stream</mat-icon>
+              Unblock User
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+</div>

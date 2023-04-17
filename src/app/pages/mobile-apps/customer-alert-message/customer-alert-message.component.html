@@ -1,0 +1,124 @@
+<div>
+  <div class="app-sub-container">
+    <div class="row">
+      <div class="col-6">
+        <h1>Customer Alert Message</h1>
+      </div>
+      <div class="col-6 text-right">
+        <button mat-flat-button color="accent" (click)="onSaveAlertMessage()">
+          <mat-icon>save</mat-icon>
+          Save Alert Message
+        </button>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <br>
+    <form [formGroup]="form">
+      <input autocomplete="off" type="hidden">
+      <div class="row">
+        <div class="col-6">
+          <mat-card>
+            <mat-card-content>
+              <h3 class="text-primary">
+                <mat-icon>android</mat-icon>&nbsp;&nbsp;Android Phone
+              </h3>
+              <mat-divider></mat-divider>
+              <br>
+              <div formGroupName="android_alert_message">
+                <div class="row">
+                  <div class="col">
+                    <mat-checkbox formControlName="is_active">Show Alert?</mat-checkbox>
+                  </div>
+                </div>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Title</mat-label>
+                  <input matInput formControlName="title">
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Content</mat-label>
+                  <textarea matInput formControlName="content" maxlength="250" #androidContentInp></textarea>
+                  <mat-hint align="end" *ngIf="androidContentInp.value.length > 0">
+                    {{ androidContentInp.value.length }}/250
+                  </mat-hint>
+                </mat-form-field>
+                <br *ngIf="androidContentInp.value.length > 0">
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Icon</mat-label>
+                  <mat-select formControlName="icon">
+                    <mat-option *ngFor="let ai of alertIconTypes" [value]="ai">{{ ai | uppercase }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Display Type</mat-label>
+                  <mat-select formControlName="display_type">
+                    <mat-option *ngFor="let dt of alertDisplayType" [value]="dt">{{ dt | uppercase }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="row">
+                <div class="col">
+                  <h3 class="text-primary">
+                    <mat-icon>phone_iphone</mat-icon>&nbsp;&nbsp;iOS Phone
+                  </h3>
+                </div>
+                <div class="col text-right">
+                  <button mat-stroked-button (click)="onCopyFromAndroidAlert()">
+                    Copy from Android Alert
+                  </button>
+                </div>
+              </div>
+
+              <mat-divider></mat-divider>
+              <br>
+              <div formGroupName="ios_alert_message">
+                <div class="row">
+                  <div class="col">
+                    <mat-checkbox formControlName="is_active">Show Alert?</mat-checkbox>
+                  </div>
+                </div>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Title</mat-label>
+                  <input matInput formControlName="title">
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Content</mat-label>
+                  <textarea matInput formControlName="content" maxlength="250" #iosContentInp></textarea>
+                  <mat-hint align="end" *ngIf="iosContentInp.value.length > 0">
+                    {{ iosContentInp.value.length }}/250
+                  </mat-hint>
+                </mat-form-field>
+                <br *ngIf="iosContentInp.value.length > 0">
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Icon</mat-label>
+                  <mat-select formControlName="icon">
+                    <mat-option *ngFor="let ai of alertIconTypes" [value]="ai">{{ ai | uppercase }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                  <mat-label>Alert Display Type</mat-label>
+                  <mat-select formControlName="display_type">
+                    <mat-option *ngFor="let dt of alertDisplayType" [value]="dt">{{ dt | uppercase }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

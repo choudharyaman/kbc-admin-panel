@@ -1,0 +1,81 @@
+<div *ngIf="bannerFilesLoadingSpinner; else mainContent" class="text-center">
+  <mat-spinner color="accent" diameter="50" style="margin: 0 auto;"></mat-spinner>
+  <div style="margin-top: 8px">Loading Files...</div>
+</div>
+<ng-template #mainContent>
+  <div matDialogContent style="overflow: hidden;">
+    <mat-tab-group [(selectedIndex)]="activeTab" mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="upload">
+        <mat-divider></mat-divider>
+        <ng-template mat-tab-label>
+          Upload File
+        </ng-template>
+        <div class="file-upload-container ng-star-inserted" style="">
+          <ngx-spinner [fullScreen]="false" name="uploadingSpinner" size="default"
+                       type="ball-clip-rotate" class="snippet-spinner">
+            <p>Uploading File...</p>
+          </ngx-spinner>
+          <div class="file-upload-container-inner" (dragover)="onDragOver($event)" (drop)="onDropSuccess($event)">
+            <input type="file" accept="image/x-png,image/gif,image/jpeg,image/pjpeg" #fileInputEl
+                   (change)="uploadFile(fileInputEl?.files?.item(0))">
+            <p>Drop file here to upload</p>
+            <div class="text-secondary">or</div>
+            <br>
+            <button mat-stroked-button color="primary" (click)="fileInputEl.click()">
+              <mat-icon>image</mat-icon> Select File
+            </button>
+            <br><br>
+            <small class="text-secondary">
+              Allowed image upload resolution is {{ imageUploadConfigs.MAX_DIM[0] }} x {{ imageUploadConfigs.MAX_DIM[1] }} pixels and size is {{ imageUploadConfigs.MAX_SIZE_MB }} MB
+            </small>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="library" [disabled]="bannerFiles.length === 0">
+        <mat-divider></mat-divider>
+        <ng-template mat-tab-label>
+          Banner Library
+        </ng-template>
+        <br>
+        <div class="row">
+          <div class="col-9">
+            <div class="banner-container">
+              <div class="banner" [ngClass]="bf.id === selectedBannerFile?.id ? 'banner-checked' : ''"
+                   *ngFor="let bf of bannerFiles" (click)="onBannerChecked(bf)">
+                <mat-icon>check_box</mat-icon>
+                <div class="banner-img"
+                     style="background-image: url('{{ bf.file_absolute_path }}');"></div>
+              </div>
+              <div style="clear: both;">&nbsp;</div>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="selected-banner-container">
+              <div *ngIf="selectedBannerFile?.file_id">
+                <h4 class="text-secondary">Selected Banner</h4>
+                <img class="img-fluid"
+                     [src]="selectedBannerFile?.file_absolute_path">
+                <button mat-stroked-button color="warn" (click)="onDeleteBanner(selectedBannerFile)">
+                  <mat-icon>delete</mat-icon>
+                  Delete File
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <mat-divider></mat-divider>
+  <div matDialogActions>
+    <button mat-stroked-button (click)="onCloseDialog()">
+      Close
+    </button>
+    &nbsp;
+    <button mat-flat-button color="primary" (click)="onSelectBanner()" [disabled]="!selectedBannerFile?.file_id">
+      <mat-icon>ad_units</mat-icon>
+      Select Banner
+    </button>
+  </div>
+</ng-template>

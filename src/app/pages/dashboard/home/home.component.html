@@ -1,0 +1,98 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6"><h1>Dashboard · Home</h1></div>
+    <div class="col-6"></div>
+  </div>
+  <div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="row">
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>New</span><span>Orders</span></div>
+          <div class="metrics-number"> {{ orderMetrics.total_new_orders }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Accepted</span><span>Orders</span></div>
+          <div class="metrics-number"> {{ orderMetrics.total_accepted_orders }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>In-Transit</span><span>Orders</span></div>
+          <div class="metrics-number"> {{ orderMetrics.total_in_transit_orders }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Total</span><span>Orders</span></div>
+          <div class="metrics-number"> {{ orderMetrics.total_orders }} </div>
+        </mat-card>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="row">
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Customers</span><span>total</span></div>
+          <div class="metrics-number"> {{ customerMetrics.total_customer }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Customers</span><span>registered</span></div>
+          <div class="metrics-number"> {{ customerMetrics.total_registered_customer }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Customers</span><span>blocked</span></div>
+          <div class="metrics-number"> {{ customerMetrics.total_blocked_customer }} </div>
+        </mat-card>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="row">
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Products</span><span>total</span></div>
+          <div class="metrics-number"> {{ productMetrics.total_products }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Drugs</span><span>products</span></div>
+          <div class="metrics-number"> {{ productMetrics.total_drugs_products }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>OTC</span><span>products</span></div>
+          <div class="metrics-number"> {{ productMetrics.total_otc_products }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Products</span><span>inactive</span></div>
+          <div class="metrics-number"> {{ productMetrics.total_inactive_products }} </div>
+        </mat-card>
+      </div>
+      <div class="col-2">
+        <mat-card class="metrics-card">
+          <div class="metrics-title"><span>Products</span><span>need prescription</span></div>
+          <div class="metrics-number"> {{ productMetrics.total_prescription_products }} </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

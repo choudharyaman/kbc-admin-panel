@@ -1,0 +1,65 @@
+.app-master-container {
+  height: 100%;
+  overflow-y: hidden;
+
+  .app-master-toolbar {
+    height: 60px;
+    .toolbar-spacer {
+      flex: 1 1 auto;
+    }
+    .master-app-name {
+      margin: 0;
+    }
+  }
+
+  .app-master-layout-container {
+    width: 100%;
+    height: calc(100% - 60px);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+
+    .app-master-sidenav {
+
+      .app-master-menu {
+        .p-panelmenu .p-panelmenu-panel {
+          box-shadow: none !important;
+          border-radius: 0 !important;
+        }
+
+        .p-panelmenu-header-link {
+          border-left: 5px solid transparent;
+          border-radius: 0 !important;
+          padding: 1.2em 1em;
+        }
+
+        .p-menuitem-link-active {
+          background-color: rgba(255, 64, 129, .23921568627450981) !important;
+          border-left: 5px solid #ff4081;
+          width: 100% !important;
+        }
+      }
+    }
+
+    .app-master-content {
+      padding: 15px 15px;
+      background-color: #eaeaea;
+      height: 100%;
+      overflow-y: scroll;
+    }
+  }
+}
+
+.user-profile-menu {
+  min-width: 150px;
+
+  .profile-header {
+    text-align: center;
+    padding: 10px 15px;
+
+    img {
+      width: 40% !important;
+      border-radius: 50%;
+      display: inline-block;
+      margin-bottom: 10px
+    }
+  }
+}

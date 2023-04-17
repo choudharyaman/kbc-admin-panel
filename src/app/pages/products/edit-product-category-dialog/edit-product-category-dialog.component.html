@@ -1,0 +1,90 @@
+<ngx-spinner type="timer" size="medium" name="saveDialogSpinner" class="snippet-spinner">
+  <p>Saving Product Category</p>
+</ngx-spinner>
+
+<div class="kbc-dialog-header">
+  <h2 [innerHTML]="dialogTitle">New Category</h2>
+  <div>
+    <button mat-icon-button matDialogClose>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div matDialogContent class="kbc-dialog-content">
+  <form [formGroup]="form">
+    <input autocomplete="false" name="hidden" type="text" style="display: none;">
+    <div class="row">
+      <div class="col-5">
+        <div class="img-container">
+          <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" name="uploadingSpinner" size="default" [fullScreen]="false"
+                       type="ball-clip-rotate" class="img-upload-spinner">
+            <p>Uploading...</p>
+          </ngx-spinner>
+          <img class="img-fluid" [src]="categoryImgFilePath">
+          <div class="img-error-message">
+          </div>
+        </div>
+        <div class="text-center">
+          <input type="file" accept="image/x-png,image/gif,image/jpeg,image/pjpeg" style="display: none;" #fileInputEl
+                 (change)="uploadFile(fileInputEl?.files?.item(0))">
+          <input type="hidden" formControlName="thumbnail">
+          <button mat-stroked-button color="primary" (click)="fileInputEl.click()">
+            <mat-icon>upload_file</mat-icon> Upload Image
+          </button>
+        </div>
+      </div>
+      <div class="col-7">
+        <mat-form-field>
+          <mat-label>Category Name</mat-label>
+          <input matInput required maxlength="100" formControlName="name">
+          <mat-error *ngIf="form.controls['name'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+            Minimum 3 characters are <strong>required</strong>
+            <br>
+            Maximum 100 characters are <strong>allowed</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['name'].hasError('maxlength')">
+            Minimum 3 characters are <strong>required</strong>
+            <br>
+            Maximum 100 characters are <strong>allowed</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['name'].hasError('serverError')">
+            {{ form.controls['name'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Parent Category</mat-label>
+          <mat-select formControlName="parent_category">
+            <mat-option [value]="null"> <i class="text-secondary">-- None --</i> </mat-option>
+            <mat-option *ngFor="let cat of availableCategories" [value]="cat.id"> {{ cat.name }} </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['parent_category'].hasError('serverError')">
+            {{ form.controls['parent_category'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="is_active">Mark <b>Active</b>?</mat-checkbox>
+        <hr>
+        <small class="text-secondary img-upload-instruction">
+          NOTE: Allowed category image resolution: 1024 x 1024 pixels and size: 1 MB
+        </small>
+      </div>
+    </div>
+  </form>
+  <br></div>
+<mat-divider></mat-divider>
+<div matDialogActions class="kbc-dialog-footer">
+  <div class="row">
+    <div class="col text-right">
+      <button mat-flat-button (click)="onCloseDialog()">
+        Close
+      </button>
+      <button mat-flat-button cdkfocusinitial color="primary" (click)="onSaveCategory()">
+        Save Category
+      </button>
+    </div>
+  </div>
+</div>

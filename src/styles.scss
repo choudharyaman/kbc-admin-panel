@@ -1,8 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 /* Theme Color Vars - added by Aman Choudhary */
 $color-primary:       #3f51b5;
 $color-accent:        #ff4081;
@@ -14,3 +11,146 @@ $color-danger:        #DC3545;
 $color-light:         #F8F9FA;
 $color-dark:          #212529;
 
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+* {
+  letter-spacing: normal !important;
+}
+
+/* Page Scroll Bar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Ngx Spinner */
+.master-spinner p, .snippet-spinner p {
+  color: #f3f3f3;
+  margin-top: 30px;
+}
+
+/* Mat Table */
+.kbc-table-search-field {
+  width: 100%;
+  font-size: 14px;
+  mat-label {
+    font-size: 14px;
+  }
+}
+.kbc-table-paginator {
+  background-color: transparent !important;
+}
+.kbc-object-table {
+  width: 100%;
+
+  .mdc-data-table__header-cell {
+    font-size: 12px !important;
+    color: var(--bs-gray);
+  }
+
+  tr {
+    cursor: pointer;
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+
+  .mat-mdc-no-data-row {
+    td {
+      color: $color-danger;
+      text-align: center;
+
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+}
+
+/* Form Field */
+mat-form-field {
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 20px;
+
+  mat-label {
+    font-size: 14px;
+  }
+
+}
+
+/* Modal */
+.kbc-dialog-header {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 10px 15px 5px 20px;
+  h2 {
+    display: flex;
+    align-items: center;
+    margin: 0 !important;
+  }
+}
+.kbc-dialog-content {}
+.kbc-dialog-footer {
+  &.mdc-dialog__actions {
+    display: block;
+    padding: 20px 30px !important;
+  }
+}
+
+/* Metrics Card */
+.metrics-card {
+  padding: 25px 20px;
+  font-family: monospace;
+}
+.metrics-card .metrics-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.metrics-card .metrics-title span:first-child {
+  display: block;
+  margin-bottom: 2px;
+}
+.metrics-card .metrics-title span:last-child {
+  display: block;
+  font-size: 16px;
+  color: #999;
+  padding-left: 2px;
+}
+.metrics-card .metrics-number {
+  color: $color-accent;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+/* Utility CSS */
+.mat-bg-primary,
+.mat-text-primary {
+  color: $color-primary !important;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.mb-30 {
+  margin-bottom: 30px;
+}

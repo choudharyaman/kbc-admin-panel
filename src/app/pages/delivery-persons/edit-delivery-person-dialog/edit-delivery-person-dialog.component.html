@@ -1,0 +1,160 @@
+<ngx-spinner type="timer" size="medium" name="saveDialogSpinner" class="snippet-spinner">
+  <p>Saving Delivery Person</p>
+</ngx-spinner>
+<div class="kbc-dialog-header">
+  <h2 [innerHTML]="dialogTitle">New Delivery Person</h2>
+  <div>
+    <button mat-icon-button matDialogClose>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+<div matDialogContent class="kbc-dialog-content">
+  <form [formGroup]="form">
+    <input autocomplete="false" name="hidden" type="text" style="display: none;">
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field>
+          <mat-label>DP Code</mat-label>
+          <input matInput required maxlength="10" formControlName="delivery_person_code">
+          <mat-error *ngIf="form.controls['delivery_person_code'].hasError('required')">
+            This field is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['delivery_person_code'].hasError('minlength')">
+            Minimum 2 characters are <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['delivery_person_code'].hasError('serverError')">
+            {{ form.controls['delivery_person_code'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+        <mat-divider></mat-divider>
+        <div class="img-container">
+          <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" name="uploadingSpinner" size="default" [fullScreen]="false"
+                       type="ball-clip-rotate" class="img-upload-spinner">
+            <p>Uploading...</p>
+          </ngx-spinner>
+          <img class="img-fluid" [src]="profileAvatarImgFilePath">
+          <div class="img-error-message">
+          </div>
+        </div>
+        <div class="text-center">
+          <input type="file" accept="image/x-png,image/gif,image/jpeg,image/pjpeg" style="display: none;" #fileInputEl
+                 (change)="uploadFile(fileInputEl?.files?.item(0))">
+          <input type="hidden" formControlName="profile_photo">
+          <button mat-stroked-button color="primary" (click)="fileInputEl.click()">
+            <mat-icon>upload_file</mat-icon> Upload Image
+          </button>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input matInput required maxlength="50" formControlName="first_name">
+              <mat-error *ngIf="form.controls['first_name'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['first_name'].hasError('minlength')">
+                Minimum 2 characters are <strong>required</strong>
+                <br>
+                Maximum 50 characters are <strong>allowed</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['first_name'].hasError('serverError')">
+                {{ form.controls['first_name'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input matInput maxlength="50" formControlName="last_name">
+              <mat-error *ngIf="form.controls['last_name'].hasError('serverError')">
+                {{ form.controls['last_name'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field>
+              <mat-label>Country Code</mat-label>
+              <mat-select formControlName="phone_country_code" required>
+                <mat-option *ngFor="let dc of phoneDialCodes" [value]="dc.code"> {{ dc.label }} </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls['phone_country_code'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['phone_country_code'].hasError('serverError')">
+                {{ form.controls['phone_country_code'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-8">
+            <mat-form-field>
+              <mat-label>Phone Number</mat-label>
+              <input matInput required maxlength="12" formControlName="phone_number">
+              <mat-error *ngIf="form.controls['phone_number'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['phone_number'].hasError('mobilephone')">
+                <strong>Invalid</strong> Phone Number
+              </mat-error>
+              <mat-error *ngIf="form.controls['phone_number'].hasError('serverError')">
+                {{ form.controls['phone_number'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label>Email Address</mat-label>
+              <input matInput required formControlName="email">
+              <mat-error *ngIf="form.controls['email'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['email'].hasError('email')">
+                <strong>Invalid</strong> Email
+              </mat-error>
+              <mat-error *ngIf="form.controls['email'].hasError('serverError')">
+                {{ form.controls['email'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-checkbox formControlName="is_active">
+              &nbsp; Mark Active?
+            </mat-checkbox>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col">
+            <small class="text-secondary img-upload-instruction">
+              NOTE: Allowed category image resolution: 1024 x 1024 pixels and size: 1 MB
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br></div>
+
+<mat-divider></mat-divider>
+<div matDialogActions class="kbc-dialog-footer">
+  <div class="row">
+    <div class="col text-right">
+      <button mat-flat-button (click)="onCloseDialog()">
+        Close
+      </button>
+      <button mat-flat-button cdkfocusinitial color="primary" (click)="onSaveDeliveryPerson()">
+        Save Delivery Person
+      </button>
+    </div>
+  </div>
+</div>

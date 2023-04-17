@@ -1,0 +1,102 @@
+<div>
+  <ngx-spinner type="ball-scale-pulse" size="medium" name="saveDialogSpinner" class="snippet-spinner">
+    <p>Saving Discount</p>
+  </ngx-spinner>
+  <div class="kbc-dialog-header">
+    <h2 [innerHTML]="dialogTitle">New Discount</h2>
+    <div>
+      <button mat-icon-button matDialogClose>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div matDialogContent class="kbc-dialog-content">
+    <form [formGroup]="form">
+      <input autocomplete="false" name="hidden" type="text" style="display: none;">
+      <mat-form-field appearance="outline">
+        <mat-label>Discount Title</mat-label>
+        <input matInput required maxlength="20" formControlName="title">
+        <mat-error *ngIf="form.controls['title'].hasError('required')">
+          This field is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="form.controls['title'].hasError('minlength')">
+          Minimum 3 characters are <strong>required</strong>
+          <br>
+          Maximum 20 characters are <strong>allowed</strong>
+        </mat-error>
+        <mat-error *ngIf="form.controls['title'].hasError('serverError')">
+          {{ form.controls['title'].getError('serverError').join(",") | titlecase }}
+        </mat-error>
+      </mat-form-field>
+
+      <div class="row" *ngIf="!isEdit">
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Discount Value</mat-label>
+            <input matInput type="number" required min="0.1" formControlName="discount_amount">
+            <mat-error *ngIf="form.controls['discount_amount'].hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['discount_amount'].hasError('min')">
+              Discount value should be <b>greater than 0</b>
+            </mat-error>
+            <mat-error *ngIf="form.controls['discount_amount'].hasError('serverError')">
+              {{ form.controls['discount_amount'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Discount Type</mat-label>
+            <mat-select formControlName="discount_type">
+              <mat-option *ngFor="let dt of discountTypes" [value]="dt">{{ dt | titlecase }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.controls['discount_type'].hasError('required')">
+              This field is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['discount_type'].hasError('serverError')">
+              {{ form.controls['discount_type'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Discount Description</mat-label>
+        <textarea matInput rows="4" maxlength="250" formControlName="description" #disDescInput></textarea>
+        <mat-hint align="end" *ngIf="disDescInput.value.length > 0">{{ disDescInput.value.length }}/50</mat-hint>
+        <mat-error *ngIf="form.controls['description'].hasError('required')">
+          This field is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="form.controls['description'].hasError('minlength')">
+          Minimum 5 characters are <b>required</b>
+          <br>
+          Maximum 50 characters are   <b>allowed</b>
+        </mat-error>
+        <mat-error *ngIf="form.controls['description'].hasError('serverError')">
+          {{ form.controls['description'].getError('serverError').join(",") | titlecase }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+  <div matDialogActions class="kbc-dialog-footer">
+    <div class="row">
+      <div class="col-5" style="display: flex; align-items: center;">
+        <mat-slide-toggle color="primary" [(ngModel)]="isDiscountActive">
+          <b class="text-success" *ngIf="isDiscountActive">Active</b>
+          <b class="text-danger" *ngIf="!isDiscountActive">Inactive</b>
+        </mat-slide-toggle>
+      </div>
+      <div class="col-7 text-right">
+        <!--        <button mat-flat-button (click)="onCloseDialog()">-->
+        <!--          Close-->
+        <!--        </button>-->
+        <button mat-flat-button cdkfocusinitial color="primary" (click)="onSaveDiscount()">
+          Save Discount
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

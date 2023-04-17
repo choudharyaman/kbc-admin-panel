@@ -1,0 +1,89 @@
+mat-form-field {
+  width: 100%
+}
+
+.mat-dialog-actions {
+  display: block;
+  text-align: right;
+  padding: 10px 0 20px
+}
+
+.file-upload-container {
+  height: 60vh;
+  text-align: center;
+  position: relative
+}
+
+.file-upload-container .file-upload-container-inner {
+  position: relative;
+  top: 30%
+}
+
+.file-upload-container input[type=file] {
+  display: none
+}
+
+.banner-container {
+  height: 60vh;
+  overflow-y: scroll
+}
+
+.banner {
+  width: 25%;
+  float: left;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+  position: relative
+}
+
+.banner .mat-icon {
+  position: absolute;
+  display: none;
+  top: 1px;
+  left: 7px;
+  background: #f44336;
+  color: #fff
+}
+
+.banner .banner-img {
+  height: 130px;
+  background-size: cover;
+  background-position: 50%
+}
+
+.banner .banner-img, .banner img {
+  width: 100%;
+  border: 4px solid transparent;
+  cursor: pointer
+}
+
+.banner .banner-img:hover, .banner img:hover {
+  border-color: #999
+}
+
+.banner-checked .banner-img, .banner-checked img {
+  border-color: #f44336 !important
+}
+
+.banner-checked .mat-icon {
+  display: block !important
+}
+
+.selected-banner-container {
+  height: 60vh;
+  text-align: center;
+  overflow-y: scroll
+}
+
+.selected-banner-container h4 {
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 5px
+}
+
+.selected-banner-container img {
+  display: inline-block;
+  margin-bottom: 20px
+}

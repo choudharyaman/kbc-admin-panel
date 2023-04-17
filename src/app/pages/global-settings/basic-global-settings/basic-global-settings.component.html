@@ -1,0 +1,191 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6">
+      <h1>Global Setting</h1>
+    </div>
+    <div class="col-6 text-right">
+      <div class="text-right">
+        <button mat-flat-button color="primary" (click)="onSaveSettings()">
+          <mat-icon>save</mat-icon> Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="form">
+        <input autocomplete="off" type="hidden">
+        <div formGroupName="customer_support">
+          <mat-card>
+            <mat-card-content>
+              <h3 class="text-primary card-title">
+                <mat-icon>support_agent</mat-icon>&nbsp;&nbsp; Customer Support Information
+              </h3>
+              <mat-divider></mat-divider>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput formControlName="email_address" type="text" required>
+                    <mat-error *ngIf="form.get('customer_support.email_address')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.email_address')?.hasError('email')">
+                      <b>Invalid</b> email address
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.email_address')?.hasError('serverError')">
+                      {{ form.get('customer_support.email_address')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <span matPrefix>&nbsp;&nbsp; +91 &nbsp;</span>
+                    <input matInput formControlName="phone_number" type="text" required>
+                    <mat-label>Phone Number</mat-label>
+                    <mat-error *ngIf="form.get('customer_support.phone_number')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.phone_number')?.hasError('mobilephone')">
+                      <b>Invalid</b> Mobile Number
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.phone_number')?.hasError('serverError')">
+                      {{ form.get('customer_support.phone_number')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <span matPrefix>&nbsp;&nbsp; +91 &nbsp;</span>
+                    <input matInput formControlName="whatsapp_number" type="text" required>
+                    <mat-label>WhatsApp Number</mat-label>
+                    <mat-error *ngIf="form.get('customer_support.whatsapp_number')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.whatsapp_number')?.hasError('mobilephone')">
+                      <b>Invalid</b> WhatsApp Number
+                    </mat-error>
+                    <mat-error *ngIf="form.get('customer_support.whatsapp_number')?.hasError('serverError')">
+                      {{ form.get('customer_support.whatsapp_number')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <br>
+        <div formGroupName="business_information">
+          <mat-card>
+            <mat-card-content>
+              <h3 class="text-primary card-title">
+                <mat-icon>business</mat-icon>&nbsp;&nbsp; Business Details
+              </h3>
+              <mat-divider></mat-divider>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <input matInput formControlName="business_name" type="text" required>
+                    <mat-label>Business Name</mat-label>
+                    <mat-error *ngIf="form.get('business_information.business_name')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('business_information.business_name')?.hasError('serverError')">
+                      {{ form.get('business_information.business_name')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <input matInput formControlName="business_drug_license" type="text" required>
+                    <mat-label>Drug License ID</mat-label>
+                    <mat-error *ngIf="form.get('business_information.business_drug_license')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('business_information.business_drug_license')?.hasError('serverError')">
+                      {{ form.get('business_information.business_drug_license')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field appearance="outline">
+                    <input matInput formControlName="business_address" type="text" required>
+                    <mat-label>Business Address</mat-label>
+                    <mat-error *ngIf="form.get('business_information.business_address')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('business_information.business_address')?.hasError('serverError')">
+                      {{ form.get('business_information.business_address')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <br>
+        <div formGroupName="business_policies">
+          <mat-card>
+            <mat-card-content>
+              <h3 class="text-primary card-title">
+                <mat-icon>policy</mat-icon>&nbsp;&nbsp; Business Policies
+              </h3>
+              <mat-divider></mat-divider>
+              <br>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Terms &amp; Conditions <small>(Web Link)</small></mat-label>
+                <input matInput formControlName="tnc" type="url" required>
+                <mat-error *ngIf="form.get('business_policies.tnc')?.hasError('required')">
+                  This field is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.tnc')?.hasError('url')">
+                  <strong>Invalid</strong> TnC Policy
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.tnc')?.hasError('serverError')">
+                  {{ form.get('business_policies.tnc')?.getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="privacy" type="url" required>
+                <mat-label>Privacy Policy <small>(Web Link)</small></mat-label>
+                <mat-error *ngIf="form.get('business_policies.privacy')?.hasError('required')">
+                  This field is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.privacy')?.hasError('url')">
+                  <strong>Invalid</strong> Privacy Policy
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.privacy')?.hasError('serverError')">
+                  {{ form.get('business_policies.privacy')?.getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
+                <input matInput formControlName="refund" type="url" required>
+                <mat-label>Refund Policy <small>(Web Link)</small></mat-label>
+                <mat-error *ngIf="form.get('business_policies.refund')?.hasError('required')">
+                  This field is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.refund')?.hasError('url')">
+                  <strong>Invalid</strong> Refund Policy
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.refund')?.hasError('serverError')">
+                  {{ form.get('business_policies.refund')?.getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </form>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>

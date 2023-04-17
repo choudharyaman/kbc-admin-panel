@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <h1>All Product Categories</h1>
+    </div>
+    <div class="col-6 text-right">
+      <button mat-flat-button color="primary" (click)="onAddNewCategory()">
+        <mat-icon>add</mat-icon>
+        Add New Category
+      </button>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+  <br>
+
+  <!-- Product Category Table -->
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th># of Products</th>
+          <th>Is Active?</th>
+          <th>Created At</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let category of productCategories; let i=index">
+          <tr>
+            <td>
+              <img class="category-thumbnail"
+                   [src]="category.thumbnail_absolute_url ? category.thumbnail_absolute_url : defaultCategoryThumbnail">
+            </td>
+            <td>
+              <b class="mat-text-primary">{{ category.name }}</b>
+            </td>
+            <td>
+              {{ category.linked_products_count }}
+            </td>
+            <td>
+              <span *ngIf="category.is_active" class="badge bg-success">YES</span>
+              <span *ngIf="!category.is_active" class="badge bg-danger">NO</span>
+            </td>
+            <td>
+              <small matTooltip="Last Updated: {{ category.updated_at | date: 'medium' }}">
+                {{ category.created_at | date: 'medium' }}
+              </small>
+            </td>
+            <td>
+              <button mat-icon-button color="primary" (click)="onViewProductCategory(category)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="onEditCategory(category)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onDeleteCategory(category)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngFor="let childCategory of category.child_categories">
+            <td>
+              <img class="category-thumbnail"
+                   [src]="childCategory.thumbnail_absolute_url ? childCategory.thumbnail_absolute_url : defaultCategoryThumbnail">
+            </td>
+            <td>
+              <b>— {{ childCategory.name }} </b> <small>({{ category.name }})</small>
+            </td>
+            <td>
+              {{ childCategory.linked_products_count }}
+            </td>
+            <td>
+              <span *ngIf="category.is_active" class="badge bg-success">YES</span>
+              <span *ngIf="!category.is_active" class="badge bg-danger">NO</span>
+            </td>
+            <td>
+              <small matTooltip="Last Updated: {{ childCategory.updated_at | date: 'medium' }}">
+                {{ childCategory.created_at | date: 'medium' }}
+              </small>
+            </td>
+            <td>
+              <button mat-icon-button color="primary" (click)="onViewProductCategory(childCategory)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="onEditCategory(childCategory)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="onDeleteCategory(childCategory)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

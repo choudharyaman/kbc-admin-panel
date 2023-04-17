@@ -1,0 +1,158 @@
+<div class="container-fluid">
+  <div class="app-sub-container">
+    <div class="row">
+      <div class="col-6"><h1>Customer App Banners</h1></div>
+      <div class="col-6 text-right"></div>
+    </div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="row">
+      <div class="col-9">
+        <form [formGroup]="form">
+          <div formArrayName="banners">
+            <div *ngFor="let bannerForm of getBannerForms().controls; let i=index;">
+              <mat-card [formGroupName]="i">
+                <mat-card-content>
+                  <div class="row">
+                    <div class="col-6">
+                      <div style="font-size: 18px; font-weight: 600;">
+                        Banner {{ i+1 }}
+                        <span class="badge bg-danger" *ngIf="!getBannerForm(i).controls['id'].value">NEW</span>
+                      </div>
+                      <br>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Target Link Type</mat-label>
+                        <mat-select formControlName="target_link_type">
+                          <mat-option *ngFor="let lt of bannerTargetLinkTypes" [value]="lt === 'NONE' ? null : lt">
+                            {{ lt | titlecase }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link_type'].hasError('required')">
+                          This field is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link_type'].hasError('serverError')">
+                          {{ getBannerForm(i).controls['target_link_type'].getError('serverError').join(",") | titlecase }}
+                        </mat-error>
+                      </mat-form-field>
+                      <br>
+
+                      <!-- Select Categories -->
+                      <mat-form-field appearance="fill"
+                                      *ngIf="getBannerForm(i).controls['target_link_type'].value == bannerTargetLinkTypes[1]">
+                        <mat-label>Target Link Category</mat-label>
+                        <mat-select formControlName="target_link" required>
+                          <ng-container *ngFor="let cat of activeProductCategories;">
+                            <mat-option [value]="cat.id">
+                              <img height="40px" [src]="cat.thumbnail_absolute_url ? cat.thumbnail_absolute_url : defaultCategoryThumbnail">
+                              &nbsp;&nbsp;
+                              <b>{{ cat.name }}</b>
+                            </mat-option>
+                            <mat-option *ngFor="let subCat of cat.child_categories" [value]="subCat.id">
+                              --&nbsp;
+                              <img height="40px" [src]="subCat.thumbnail_absolute_url ? cat.thumbnail_absolute_url : defaultCategoryThumbnail">
+                              &nbsp;&nbsp;
+                              {{subCat.name}} <small>({{ cat.name }})</small>
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link'].hasError('required')">
+                          This field is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link'].hasError('serverError')">
+                          {{ getBannerForm(i).controls['target_link'].getError('serverError').join(",") | titlecase }}
+                        </mat-error>
+                      </mat-form-field>
+
+                      <!-- Enter External URL -->
+                      <mat-form-field appearance="fill"
+                                      *ngIf="getBannerForm(i).controls['target_link_type'].value == bannerTargetLinkTypes[2]">
+                        <mat-label>Target Link URL</mat-label>
+                        <input matInput formControlName="target_link" required maxlength="250">
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link'].hasError('required')">
+                          This field is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link'].hasError('url')">
+                          URL is <b>invalid</b>
+                        </mat-error>
+                        <mat-error *ngIf="getBannerForm(i).controls['target_link'].hasError('serverError')">
+                          {{ getBannerForm(i).controls['target_link'].getError('serverError').join(",") | titlecase }}
+                        </mat-error>
+                      </mat-form-field>
+
+                      <br>
+                      <div>
+                        <mat-checkbox formControlName="is_active">Display this Banner?</mat-checkbox>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <img style="width: 100%;" [src]="$any(bannerForm).controls['banner_absolute_path'].value">
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-6">
+                      <button mat-stroked-button color="warn" (click)="onRemoveBanner(i, banners[i])">
+                        <mat-icon>delete</mat-icon> Remove Banner
+                      </button>
+                      &nbsp;
+                      <button mat-stroked-button color="primary" *ngIf="getBannerForm(i).controls['id'].value"
+                              (click)="onSaveBanner(i, bannerForm)">
+                        <mat-icon>save</mat-icon> Save Banner
+                      </button>
+                      &nbsp;
+                      <button mat-flat-button color="primary" *ngIf="!getBannerForm(i).controls['id'].value"
+                              (click)="onSaveBanner(i, bannerForm)">
+                        <mat-icon>save</mat-icon> Create New Banner
+                      </button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button mat-stroked-button color="primary" (click)="onSelectBanner(i)">
+                        <mat-icon>image</mat-icon> Choose Banner Image
+                      </button>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+              <br>
+            </div>
+            <div class="text-right" *ngIf="banners.length < maxAllowedBanners">
+              <button mat-stroked-button color="accent" (click)="onAddNewBanner()">
+                <mat-icon>ad_units</mat-icon>
+                Add New Banner
+                <small class="text-secondary"> ({{ maxAllowedBanners - getBannerForms().controls.length }} more available)</small>
+              </button>
+            </div>
+            <br>
+          </div>
+        </form>
+      </div>
+      <div class="col-3">
+        <mat-card class="mat-card mat-focus-indicator metrics-card">
+          <div class="metrics-title"><span>Total Banners</span><span>&nbsp;</span></div>
+          <div class="metrics-number">{{ bannerMetrics.total }} / {{ maxAllowedBanners }}</div>
+        </mat-card>
+        <br>
+        <mat-card class="mat-card mat-focus-indicator metrics-card">
+          <div class="metrics-title"><span>Active Banners</span><span>&nbsp;</span></div>
+          <div class="metrics-number">{{ bannerMetrics.active }}</div>
+        </mat-card>
+        <br>
+        <mat-card class="mat-card mat-focus-indicator metrics-card">
+          <div class="metrics-title"><span>Vendor Linked</span><span>&nbsp;</span></div>
+          <div class="metrics-number">{{ bannerMetrics.vendorBased }}</div>
+        </mat-card>
+        <br>
+        <mat-card class="mat-card mat-focus-indicator metrics-card">
+          <div class="metrics-title"><span>Category Linked</span><span>&nbsp;</span></div>
+          <div class="metrics-number">{{ bannerMetrics.categoryBased }}</div>
+        </mat-card>
+        <br>
+        <mat-card class="mat-card mat-focus-indicator metrics-card">
+          <div class="metrics-title"><span>URL Linked</span><span>&nbsp;</span></div>
+          <div class="metrics-number">{{ bannerMetrics.urlBased }}</div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

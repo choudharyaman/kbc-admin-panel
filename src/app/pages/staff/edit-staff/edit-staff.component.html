@@ -1,0 +1,164 @@
+
+<ngx-spinner [fullScreen]="false" type="ball-scale-pulse" size="medium" name="userSpinner" class="snippet-spinner">
+  <p>Saving Staff</p>
+</ngx-spinner>
+<h2 mat-dialog-title [innerHTML]="dialogTitle">Staff Dialog</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content>
+  <br>
+
+  <form [formGroup]="form" autocomplete="off">
+    <input autocomplete="false" name="hidden" type="text" style="display:none;">
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Employee Code</mat-label>
+          <input matInput required maxlength="10" formControlName="employee_code">
+          <mat-error *ngIf="form.controls['employee_code'].hasError('required')">
+            Employee Code is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['employee_code'].hasError('serverError')">
+            {{ form.controls['employee_code'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="outline" *ngIf="!data.edit">
+          <mat-label>Role</mat-label>
+          <mat-select required formControlName="role">
+            <mat-option value="{{ userRoles.CLERK }}">Clerk</mat-option>
+            <mat-option value="{{ userRoles.MANAGER }}">Manager</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['role'].hasError('required')">
+            Role is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['role'].hasError('serverError')">
+            {{ form.controls['role'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput required maxlength="25" formControlName="first_name">
+          <mat-error *ngIf="form.controls['first_name'].hasError('required')">
+            First name is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['first_name'].hasError('serverError')">
+            {{ form.controls['first_name'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput required maxlength="25" formControlName="last_name">
+          <mat-error *ngIf="form.controls['last_name'].hasError('serverError')">
+            {{ form.controls['last_name'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput required maxlength="50" autocomplete="off" formControlName="email">
+      <mat-error *ngIf="form.controls['email'].hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="form.controls['email'].hasError('email')">
+        Invalid email format
+      </mat-error>
+      <mat-error *ngIf="form.controls['email'].hasError('serverError')">
+        {{ form.controls['email'].getError('serverError').join(",") | titlecase }}
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Dial Code</mat-label>
+          <mat-select required formControlName="phone_country_code">
+            <mat-option *ngFor="let dc of dialCodes" [value]="dc.code">{{ dc.label }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.controls['phone_country_code'].hasError('required')">
+            Dial Code is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['phone_country_code'].hasError('serverError')">
+            {{ form.controls['phone_country_code'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Mobile Number</mat-label>
+          <input matInput required formControlName="phone_number">
+          <mat-error *ngIf="form.controls['phone_number'].hasError('required')">
+            Mobile number is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="form.controls['phone_number'].hasError('mobilephone')">
+            Invalid mobile number format
+          </mat-error>
+          <mat-error *ngIf="form.controls['phone_number'].hasError('serverError')">
+            {{ form.controls['phone_number'].getError('serverError').join(",") | titlecase }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Username & Password Section for New Staff Only -->
+    <div *ngIf="!data.edit">
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <p>Staff's Login Credential</p>
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput required maxlength="50" autocomplete="off"
+                   formControlName="username" [ngModel]="this.form.controls['email'].value">
+            <mat-error *ngIf="form.controls['username'].hasError('required')">
+              Username is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['username'].hasError('email')">
+              Invalid username / email format
+            </mat-error>
+            <mat-error *ngIf="form.controls['username'].hasError('serverError')">
+              {{ form.controls['username'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <mat-form-field appearance="outline" *ngIf="!data.edit">
+            <mat-label>Enter new password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" required minlength="8" autocomplete="off"
+                   formControlName="password">
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hidePassword" type="button">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="form.controls['password'].hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="form.controls['password'].hasError('minlength')">
+              Password should be <b>8 characters</b> long
+            </mat-error>
+            <mat-error *ngIf="form.controls['password'].hasError('serverError')">
+              {{ form.controls['password'].getError('serverError').join(",") | titlecase }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="onCloseDialog()">Close</button>
+  <button mat-flat-button (click)="onSave()" cdkFocusInitial color="primary">Save Staff</button>
+</div>

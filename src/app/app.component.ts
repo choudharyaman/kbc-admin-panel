@@ -8,10 +8,8 @@ import {environment} from '../environments/environment';
 })
 export class AppComponent {
   title = 'kbc-admin-panel';
+  env = environment;
 
   constructor() {
-    console.log('env: ', environment.production);
-    console.log('env: ', environment.envName);
-    console.log('env: ', environment.apiBaseUrl);
   }
 }
