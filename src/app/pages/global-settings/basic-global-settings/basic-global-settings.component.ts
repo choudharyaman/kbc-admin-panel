@@ -22,6 +22,7 @@ export class BasicGlobalSettingsComponent {
               private spinner: NgxSpinnerService, private fb: FormBuilder) {
 
     this.globalSetting = this.route.snapshot.data['globalSetting'];
+    console.log('this.globalSetting', this.globalSetting);
 
     /* Form Builder */
     this.form = this.fb.group({
@@ -41,6 +42,8 @@ export class BasicGlobalSettingsComponent {
         refund: [null, [Validators.required, CustomFormValidators.url]]
       })
     })
+
+    this.form.patchValue(this.globalSetting);
   }
 
   ngOnInit() {}

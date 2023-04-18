@@ -45,7 +45,7 @@ export class DeliveryPersonService {
     let qParam = new HttpParams();
     qParam = qParam.set("is_active", "true");
 
-    this.http.get<ResponseData>(Endpoints.DELIVERY_PERSONS, {
+    return this.http.get<ResponseData>(Endpoints.DELIVERY_PERSONS, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)

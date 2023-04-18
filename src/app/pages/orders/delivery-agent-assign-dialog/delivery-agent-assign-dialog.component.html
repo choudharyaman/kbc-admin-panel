@@ -1,0 +1,79 @@
+<ngx-spinner type="timer" size="medium" name="saveDialogSpinner" class="snippet-spinner">
+  <p>Saving</p>
+</ngx-spinner>
+
+<div class="kbc-dialog-header">
+  <h2 [innerHTML]="dialogTitle">Assign Delivery Agent</h2>
+  <div>
+    <button mat-icon-button matDialogClose>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div matDialogContent>
+
+  <form [formGroup]="deliveryPersonForm" *ngIf="agentType === agentTypes.BY_SELF">
+    <mat-form-field>
+      <mat-label>Delivery Person</mat-label>
+      <mat-select formControlName="by_self_agent" required>
+        <mat-option *ngFor="let agent of deliveryPersons" [value]="agent.id">
+          {{ agent.first_name }} {{ agent.last_name }} ({{ agent.phone_number }})
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="deliveryPersonForm.controls['by_self_agent'].hasError('required')">
+        This field is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="deliveryPersonForm.controls['by_self_agent'].hasError('serverError')">
+        {{ deliveryPersonForm.controls['by_self_agent'].getError('serverError').join(",") | titlecase }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+  <form [formGroup]="courierAgentForm" *ngIf="agentType === agentTypes.COURIER">
+    <mat-form-field>
+      <mat-label>Courier Agent</mat-label>
+      <mat-select formControlName="courier_agent" required>
+        <mat-option *ngFor="let agent of courierAgents" [value]="agent.id">
+          {{ agent.courier_agent_name }} ({{ agent.courier_agent_website }})
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="courierAgentForm.controls['courier_agent'].hasError('required')">
+        This field is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="courierAgentForm.controls['courier_agent'].hasError('serverError')">
+        {{ courierAgentForm.controls['courier_agent'].getError('serverError').join(",") | titlecase }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Tracking Code</mat-label>
+      <input matInput formControlName="courier_agent_tracking_code" required>
+      <mat-error *ngIf="courierAgentForm.controls['courier_agent_tracking_code'].hasError('required')">
+        This field is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="courierAgentForm.controls['courier_agent_tracking_code'].hasError('minlength')">
+        Tracking code should contain <strong>3 characters</strong>
+      </mat-error>
+      <mat-error *ngIf="courierAgentForm.controls['courier_agent_tracking_code'].hasError('serverError')">
+        {{ courierAgentForm.controls['courier_agent_tracking_code'].getError('serverError').join(",") | titlecase }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+
+<mat-divider></mat-divider>
+
+<div matDialogActions class="kbc-dialog-footer">
+  <div class="row">
+    <div class="col text-right">
+      <button mat-flat-button (click)="onCloseDialog()">
+        Close
+      </button>
+      <button mat-flat-button color="primary" (click)="onSetDeliveryAgent()">
+        Assign {{ agentType === agentTypes.BY_SELF ? 'Delivery Person' : 'Courier Agent' }}
+      </button>
+    </div>
+  </div>
+</div>

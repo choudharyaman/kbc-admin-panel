@@ -4,7 +4,6 @@ import {User, UserActivities, UserLoginActivities, UserLoginStatus} from "../../
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {PaginatorMeta, ResponseData} from "../../../../models/paginator.model";
 import {UserService} from '../../../../services/user.service';
-import {Customer} from '../../../../models/customer.model';
 
 @Component({
   selector: 'app-list-user-activities-dialog',

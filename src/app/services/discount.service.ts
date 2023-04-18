@@ -45,7 +45,7 @@ export class DiscountService {
     let qParam = new HttpParams();
     qParam = qParam.set("is_active", "true");
 
-    this.http.get<ResponseData>(Endpoints.DISCOUNTS, {
+    return this.http.get<ResponseData>(Endpoints.DISCOUNTS, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)

@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import {
-  Router, Resolve,
+  Resolve,
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import {map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {QueryParamsMeta, ResponseData} from '../../../models/paginator.model';
 import {OrderService} from '../../../services/order.service';
 import {AppConfig} from '../../../config/app.config';
+import {CourierAgentService} from '../../../services/courier-agent.service';
+import {DeliveryPersonService} from '../../../services/delivery-person.service';
+import {TaxService} from '../../../services/tax.service';
+import {DiscountService} from '../../../services/discount.service';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +73,67 @@ export class OrderListByStatusResolver implements Resolve<boolean> {
   providedIn: 'root'
 })
 export class OrderResolver implements Resolve<boolean> {
+
+  constructor(private service: OrderService) {
+  }
+
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return of(true);
+    const orderId = route.paramMap.get('orderId') as string;
+
+    return this.service.getOrder(orderId).pipe(
+      map(res => { return (res as ResponseData).data })
+    );
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveCourierAgentsResolver implements Resolve<any> {
+
+  constructor(private service: CourierAgentService) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    return this.service.getAllActiveCourierAgents();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveDeliveryPersonsResolver implements Resolve<any> {
+
+  constructor(private service: DeliveryPersonService) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    return this.service.getAllActiveDeliveryPerson();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveTaxesResolver implements Resolve<any> {
+
+  constructor(private service: TaxService) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    return this.service.getActiveTaxes();
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiveDiscountsResolver implements Resolve<any> {
+
+  constructor(private service: DiscountService) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    return this.service.getActiveDiscounts();
   }
 }

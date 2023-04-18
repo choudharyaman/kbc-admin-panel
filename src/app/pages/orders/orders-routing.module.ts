@@ -1,9 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ListOrdersComponent} from './list-orders/list-orders.component';
-import {OrderListByStatusResolver, OrderListResolver, OrderMetricsResolver} from './resolvers/order.resolver';
+import {
+  ActiveCourierAgentsResolver, ActiveDeliveryPersonsResolver, ActiveDiscountsResolver,
+  ActiveTaxesResolver,
+  OrderListByStatusResolver,
+  OrderListResolver,
+  OrderMetricsResolver,
+  OrderResolver
+} from './resolvers/order.resolver';
 import {OrderStatus} from '../../models/order.model';
-import {AppPages} from '../../config/app.pages';
+import {OrderDetailComponent} from './order-detail/order-detail.component';
 
 const routes: Routes = [
   {
@@ -57,6 +64,17 @@ const routes: Routes = [
     resolve: {
       orders: OrderListByStatusResolver,
       orderMetrics: OrderMetricsResolver
+    }
+  },
+  {
+    path: ':orderId',
+    component: OrderDetailComponent,
+    resolve: {
+      order: OrderResolver,
+      courierAgents: ActiveCourierAgentsResolver,
+      deliveryPersons: ActiveDeliveryPersonsResolver,
+      availableTaxes: ActiveTaxesResolver,
+      availableDiscounts: ActiveDiscountsResolver,
     }
   }
 ];

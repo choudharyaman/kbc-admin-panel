@@ -1,0 +1,389 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6">
+      <h1>Order# <b>{{ order.order_number }}</b></h1>
+    </div>
+    <div class="col-6 text-right">
+      Order Placed at <b>{{ order.created_at | date: 'medium' }}</b>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span>Status</span>
+          <span>of order</span>
+        </div>
+        <div>
+          <span *ngIf="order.status == orderStatuses.PLACED" class="badge bg-danger">NEW</span>
+          <span *ngIf="order.status == orderStatuses.CONFIRMED" class="badge bg-warning">CONFIRMED</span>
+          <span *ngIf="order.status == orderStatuses.IN_TRANSIT" class="badge bg-warning">IN TRANSIT</span>
+
+          <span *ngIf="order.status == orderStatuses.DENIED" class="badge bg-secondary">DENIED</span>
+          <span *ngIf="order.status == orderStatuses.CANCELLED" class="badge bg-secondary">CANCELLED</span>
+          <span *ngIf="order.status == orderStatuses.DELIVERED" class="badge bg-secondary">DELIVERED</span>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span>Paid</span>
+          <span>&nbsp;</span>
+        </div>
+        <div>
+          <span *ngIf="order.is_paid" class="badge bg-success">YES</span>
+          <span *ngIf="!order.is_paid" class="badge bg-danger">NO</span>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span>Net Amount</span><span>of order</span>
+        </div>
+        <div class="metrics-number">{{ order.net_amount | currency }}</div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span>Advise Slip</span><span>by doctor</span>
+        </div>
+        <div class="metrics-number"> {{ order.order_prescription_slips.length }} </div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span># of Items</span><span>in order</span>
+        </div>
+        <div class="metrics-number"> {{ order.order_items.length }} </div>
+      </mat-card>
+    </div>
+    <div class="col-2">
+      <mat-card class="metrics-card">
+        <div class="metrics-title">
+          <span>Pay Mode</span><span>Opted</span>
+        </div>
+        <div class="metrics-number">{{ order.preferred_payment_method }}</div>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-8">
+      <mat-card>
+        <mat-card-content>
+          <h2 class="text-primary">Doctor's Prescription Slip ({{ order.order_prescription_slips.length }})</h2>
+          <div *ngIf="order.has_prescription_slip">
+            <div class="row">
+              <div class="col-3 pslip-container" (click)="onOpenAdviceSlip(slip.file_absolute_path)"
+                   *ngFor="let slip of order.order_prescription_slips">
+                <img alt="advice_slip" width="100%" [src]="slip.file_absolute_path">
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!order.has_prescription_slip">
+            <p class="text-secondary"><i>-- No Prescription Slip(s) attached --</i></p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card id="printableBillDetails">
+        <mat-card-content>
+          <h2 class="text-primary">Bill for Ordered Items</h2>
+          <mat-divider></mat-divider>
+          <table id="orderItemTable" class="table">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Rate</th>
+              <th>Tax</th>
+              <th>Gross Amount</th>
+              <th>Discount</th>
+              <th>Net Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of order.order_items; let i=index">
+              <td> {{ i + 1 }} </td>
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.rate | currency }}</td>
+              <td>
+              <span *ngIf="item.tax; else noItemTax">
+                {{ item?.tax_amount | currency }}
+                <small>( {{ item.tax.title }} )</small>
+              </span>
+                <ng-template #noItemTax>
+                  -
+                </ng-template>
+              </td>
+              <td>{{ item.gross_amount | currency }}</td>
+              <td>
+              <span *ngIf="item.discount; else noItemDiscount">
+              {{ item?.discount_amount | currency }}
+                <small>( {{ item.discount.title }} )</small>
+              </span>
+                <ng-template #noItemDiscount>
+                  -
+                </ng-template>
+              </td>
+              <td>{{ item.net_amount | currency }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="7" class="text-right"> Gross Amount</td>
+              <td> {{ order.gross_amount | currency }} </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="text-right"> Total Discount</td>
+              <td> {{ order.discount_amount | currency }} </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="text-right"> Total Taxes</td>
+              <td> {{ order.tax_amount | currency }} </td>
+            </tr>
+            <tr>
+              <td colspan="7" class="text-right"> Net Amount</td>
+              <td><b> {{ order.net_amount | currency }} </b></td>
+            </tr>
+            </tfoot>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-4">
+              <!-- Deny Order -->
+              <button mat-stroked-button color="warn"
+                      *ngIf="[orderStatuses.PLACED.toString(), orderStatuses.CONFIRMED.toString()].includes(order.status)"
+                      (click)="onDenyOrder()" (document:keydown.alt.d)="onDenyOrder()">
+                <mat-icon>cancel</mat-icon>
+                Deny Order (Alt+D)
+              </button>
+            </div>
+            <div class="col-8 text-right">
+              <!-- Modify Order -->
+              <button mat-stroked-button color="primary"
+                      *ngIf="[orderStatuses.PLACED.toString()].includes(order.status)"
+                      (click)="onModifyOrder()">
+                <mat-icon>edit</mat-icon>
+                Edit Order
+              </button>
+              &nbsp;
+              <!-- Assign Delivery Agent Order -->
+              <button mat-flat-button color="primary" [matMenuTriggerFor]="deliveryAgentSelectionMenu"
+                      *ngIf="[orderStatuses.CONFIRMED.toString()].includes(order.status)">
+                <mat-icon>swipe_right</mat-icon>
+                Assign Delivery Agent
+              </button>
+              <mat-menu #deliveryAgentSelectionMenu="matMenu">
+                <button mat-menu-item (click)="onAssignDeliveryAgent(deliveryAgentTypes.BY_SELF)">
+                  Delivery Person
+                </button>
+                <button mat-menu-item (click)="onAssignDeliveryAgent(deliveryAgentTypes.COURIER)">
+                  Courier Agent
+                </button>
+              </mat-menu>
+              &nbsp;
+              <!-- Mark Order Complete -->
+              <button mat-flat-button color="primary"
+                      *ngIf="[orderStatuses.IN_TRANSIT.toString()].includes(order.status)"
+                      (click)="onMarkOrderDelivered()">
+                <mat-icon>check_circle</mat-icon>
+                Mark Order Paid &amp; Delivered
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+    </div>
+    <div class="col-4">
+      <mat-card id="printableAddressLabel">
+        <mat-card-content>
+          <h2 class="text-primary">Delivery To</h2>
+          <div style="margin-bottom: 8px;">
+            <b style="font-size: 16px;">{{ order.customer.first_name }} {{ order.customer.last_name }}</b>
+          </div>
+          <hr>
+          <div>
+            <span class="badge bg-dark">{{ order.delivery_address.label }}</span>
+            <br>
+            {{ order.delivery_address.address_line }}, {{ order.delivery_address.landmark }},
+            {{ order.delivery_address.city }} - {{ order.delivery_address.postal_code }},
+            {{ order.delivery_address.state }}, {{ order.delivery_address.country }}
+          </div>
+          <hr>
+          <div style="font-size: 16px;">
+            Phone Number:
+            <a class="text-decoration-none"
+               href="tel:+{{ order.customer.phone_country_code }}{{ order.customer.phone_number }}">
+              +{{ order.customer.phone_country_code }}-{{ order.customer.phone_number }}
+            </a>
+            <hr>
+            Email Address:
+            <a class="text-decoration-none" href="mailto:{{ order.customer.email }}">{{ order.customer.email }}</a>
+          </div>
+          <hr>
+          <div style="text-align: center;">
+            <button mat-stroked-button color="primary" (click)="onViewCustomer()">
+              More about {{ order.customer.first_name }}
+              <mat-icon>east</mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <h2 class="text-primary">Delivery By</h2>
+          <div *ngIf="order.order_delivery; else noDeliveryAgentAssigned">
+            <div *ngIf="order.order_delivery.assigned_agent_type === deliveryAgentTypes.COURIER">
+              <div>
+                Send via <b style="font-size: 16px;"> {{ order.order_delivery.courier_agent.courier_agent_name }} </b>
+              </div>
+              <div style="display: flex; align-items: center;">
+                Tracking Code: <b>{{ order.order_delivery.courier_agent_tracking_code }}</b>
+                &nbsp;
+                <a mat-icon-button target="_blank"
+                   [href]="order.order_delivery.courier_agent.courier_agent_tracking_url+order.order_delivery.courier_agent_tracking_code">
+                  <mat-icon>link</mat-icon>
+                </a>
+              </div>
+            </div>
+
+            <div *ngIf="order.order_delivery.assigned_agent_type === deliveryAgentTypes.BY_SELF">
+              <div style="margin-bottom: 8px;">
+                <b style="font-size: 16px;">
+                  {{ order.order_delivery.by_self_agent.first_name }} {{ order.order_delivery.by_self_agent.last_name }}
+                </b>
+              </div>
+              <div>
+                Phone:
+                <b>+{{ order.order_delivery.by_self_agent.phone_country_code }}-{{ order.order_delivery.by_self_agent.phone_number }}
+                </b>
+              </div>
+            </div>
+
+            <div *ngIf="order.order_delivery">
+              <hr>
+              <div class="text-center">
+                <button mat-stroked-button color="primary" [matMenuTriggerFor]="deliveryAgentReSelectionMenu">
+                  <mat-icon>delivery_dining</mat-icon>
+                  Change Delivery Agent
+                </button>
+
+                <mat-menu #deliveryAgentReSelectionMenu="matMenu">
+                  <button mat-menu-item (click)="onReAssignDeliveryAgent(deliveryAgentTypes.BY_SELF)">
+                    Delivery Person
+                  </button>
+                  <button mat-menu-item (click)="onReAssignDeliveryAgent(deliveryAgentTypes.COURIER)">
+                    Courier Agent
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #noDeliveryAgentAssigned>
+            <span class="badge bg-danger">NOT ASSIGNED</span>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <h2 class="text-primary">Prints &amp; Downloads</h2>
+          <div class="text-center">
+            <button mat-stroked-button color="primary" (click)="onPrintAddressLabel()">
+              <mat-icon>contact_mail</mat-icon>
+              Print Address Label
+            </button>
+            &nbsp;
+            <button mat-stroked-button color="primary" (click)="onPrintBill()">
+              <mat-icon>receipt_long</mat-icon>
+              Print Bill
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <h2 class="text-primary margin"> Payment Detail </h2>
+          <table class="table table-hover">
+            <tfoot>
+            <tr>
+              <td>Preferred Payment Mode</td>
+              <th>{{ order.preferred_payment_method }}</th>
+            </tr>
+            </tfoot>
+            <thead *ngIf="order.is_paid">
+            <tr>
+              <td>Paid at</td>
+              <th>{{ latestPaymentDetail.paid_at | date:'medium' }}</th>
+            </tr>
+            <tr>
+              <td>Used Payment Method</td>
+              <th>{{ latestPaymentDetail.payment_method }}</th>
+            </tr>
+            <tr>
+              <td>PG Order Id</td>
+              <th>{{ latestPaymentDetail.pg_order_id }}</th>
+            </tr>
+            <tr>
+              <td>PG Pay Id</td>
+              <th>{{ latestPaymentDetail.pg_txn_id }}</th>
+            </tr>
+            <tr>
+              <td>IP Address</td>
+              <th>{{ latestPaymentDetail.ip_address }}</th>
+            </tr>
+            <tr>
+              <td>Device</td>
+              <td>{{ latestPaymentDetail.device }} - {{ latestPaymentDetail.os }}({{ latestPaymentDetail.os_version }}
+                )
+              </td>
+            </tr>
+            </thead>
+          </table>
+        </mat-card-content>
+      </mat-card>
+      <br>
+      <mat-card>
+        <mat-card-content>
+          <h2 class="text-primary">Customer's Access Information</h2>
+          <table class="table table-hover">
+            <tr>
+              <td>IP Address</td>
+              <th>{{ order.ip_address }}</th>
+            </tr>
+            <tr>
+              <td>Device</td>
+              <th>{{ order.device }}</th>
+            </tr>
+            <tr>
+              <td>OS</td>
+              <th>{{ order.os }} - {{ order.os_version }}</th>
+            </tr>
+            <tr>
+              <td>Channel</td>
+              <th>{{ order.app_channel }}</th>
+            </tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+</div>

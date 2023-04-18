@@ -45,7 +45,7 @@ export class TaxService {
     let qParam = new HttpParams();
     qParam = qParam.set("is_active", "true");
 
-    this.http.get<ResponseData>(Endpoints.TAXES, {
+    return this.http.get<ResponseData>(Endpoints.TAXES, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)

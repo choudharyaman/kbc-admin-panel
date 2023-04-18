@@ -8,6 +8,7 @@ import {map, Observable, of} from 'rxjs';
 import {CustomerService} from "../../../services/customer.service";
 import {QueryParamsMeta, ResponseData} from "../../../models/paginator.model";
 import {AppConfig} from "../../../config/app.config";
+import {OrderService} from '../../../services/order.service';
 
 @Injectable({
   providedIn: 'root'
@@ -61,24 +62,23 @@ export class CustomerResolver implements Resolve<boolean> {
   }
 }
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class CustomerOrderListResolver implements Resolve<boolean> {
-//
-//   constructor(private service: OrderService) {
-//   }
-//
-//   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-//     const customerId = route.paramMap.get('customerId') as string;
-//
-//     const query: QueryParamsMeta = {};
-//     query.filters = [{name: 'customer', value: customerId}];
-//     query.page = 1;
-//     query.page_size = AppConfig.PAGINATION.DEFAULT_PAGE_SIZE;
-//
-//     return this.service.getOrders(query).pipe(
-//       map(res => { return (res as ResponseData).data })
-//     );
-//   }
-// }
+@Injectable({
+  providedIn: 'root'
+})
+export class CustomerOrderListResolver implements Resolve<boolean> {
+
+  constructor(private service: OrderService) {
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    const customerId = route.paramMap.get('customerId') as string;
+
+    const query: QueryParamsMeta = {};
+    query.page = 1;
+    query.page_size = AppConfig.PAGINATION.DEFAULT_PAGE_SIZE;
+
+    return this.service.getOrdersByCustomer(customerId, query).pipe(
+      map(res => { return (res as ResponseData).data })
+    );
+  }
+}

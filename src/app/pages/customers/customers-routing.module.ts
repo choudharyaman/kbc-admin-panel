@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ListCustomersComponent} from './list-customers/list-customers.component';
-import {CustomerListResolver, CustomerMetricsResolver, CustomerResolver} from './resolvers/customer.resolver';
+import {
+  CustomerListResolver,
+  CustomerMetricsResolver,
+  CustomerOrderListResolver,
+  CustomerResolver
+} from './resolvers/customer.resolver';
 import {CustomerDetailComponent} from './customer-detail/customer-detail.component';
 
 const routes: Routes = [
@@ -22,7 +27,8 @@ const routes: Routes = [
     path: ':customerId',
     component: CustomerDetailComponent,
     resolve: {
-      customer: CustomerResolver
+      customer: CustomerResolver,
+      orders: CustomerOrderListResolver
     }
   },
 ];

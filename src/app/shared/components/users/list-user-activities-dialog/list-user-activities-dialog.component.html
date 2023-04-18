@@ -2,9 +2,18 @@
   <mat-spinner color="accent" diameter="50"></mat-spinner>
   <div style="margin-top: 8px">Loading</div>
 </div>
+
 <ng-template #mainContent>
-  <h2 mat-dialog-title class="mat-text-primary">User Activities: {{ user.username }}</h2>
-  <div mat-dialog-content>
+  <div class="kbc-dialog-header">
+    <h2>User Activities:&nbsp;<span class="mat-text-primary">{{ user.username }}</span></h2>
+    <div>
+      <button mat-icon-button matDialogClose>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div mat-dialog-content style="padding: 0 10px;">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
       <mat-tab label="Login Activities" *ngIf="enableLA">
         <table class="table table-hover table-striped">
@@ -62,7 +71,8 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div mat-dialog-actions>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions class="kbc-dialog-footer text-right">
     <button mat-button (click)="onCloseDialog()">Close</button>
   </div>
 </ng-template>

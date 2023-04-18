@@ -123,6 +123,7 @@ export interface Order extends UserDevice {
   status: OrderStatus;
 
   customer_remark: string;
+  staff_remark: string;
 
   order_items: OrderItem[];
   order_prescription_slips: CustomerPrescriptionSlip[];

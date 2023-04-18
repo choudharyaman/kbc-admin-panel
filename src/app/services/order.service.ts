@@ -65,7 +65,7 @@ export class OrderService {
       qParam = qParam.set('search', query.search);
     }
 
-    this.http.get(Endpoints.CUSTOMER_ORDERS.replace(":customerId", customerId), {params: qParam }).pipe(
+    return this.http.get(Endpoints.CUSTOMER_ORDERS.replace(":customerId", customerId), {params: qParam }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)
     )
   }

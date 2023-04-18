@@ -45,7 +45,7 @@ export class CourierAgentService {
     let qParam = new HttpParams();
     qParam = qParam.set("is_active", "true");
 
-    this.http.get<ResponseData>(Endpoints.COURIER_AGENTS, {
+    return this.http.get<ResponseData>(Endpoints.COURIER_AGENTS, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)
