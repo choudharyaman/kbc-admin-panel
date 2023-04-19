@@ -1,8 +1,8 @@
 <div class="app-sub-container">
   <div class="row">
     <div class="col-6">
-      <h1>Product Category:
-        <span class="text-primary">Baby Care</span>
+      <h1>
+        Product Category: <span class="text-primary">{{ productCategory.name }}</span>
         &nbsp;
         <span style="font-size: 16px;">
           <small class="badge bg-success" *ngIf="productCategory.is_active">ACTIVE</small>
@@ -10,7 +10,17 @@
         </span>
       </h1>
     </div>
-    <div class="col-6" style="text-align: right;"></div>
+    <div class="col-6" style="text-align: right;">
+      <button mat-flat-button color="primary" (click)="onEditCategory()">
+        <mat-icon>edit</mat-icon>
+        Edit Category
+      </button>
+      &nbsp;
+      <button mat-stroked-button color="warn" (click)="onDeleteCategory()">
+        <mat-icon>delete</mat-icon>
+        Delete Category
+      </button>
+    </div>
   </div>
   <mat-divider></mat-divider>
   <br>

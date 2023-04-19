@@ -39,6 +39,7 @@ const routes: Routes = [
     component: ProductCategoryDetailComponent,
     resolve: {
       productCategory: ProductCategoryResolver,
+      productCategories: ProductCategoryListResolver,
       products: ProductListByCategoryResolver
     }
   },

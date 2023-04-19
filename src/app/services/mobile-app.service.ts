@@ -47,7 +47,7 @@ export class MobileAppService {
     const imgData = new FormData;
     imgData.append("file", file);
 
-    return this.http.post(Endpoints.MOBILE_APP_BANNER_FILES, imgData, {
+    return this.http.post(Endpoints.UPLOAD_MOBILE_APP_BANNER, imgData, {
       reportProgress: !0,
       observe: "events"
     }).pipe(

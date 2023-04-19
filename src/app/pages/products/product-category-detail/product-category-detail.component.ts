@@ -11,6 +11,11 @@ import {AppConfig} from '../../../config/app.config';
 import Swal from 'sweetalert2';
 import {Toast} from '../../../utils/toast';
 import {AppPages} from '../../../config/app.pages';
+import {
+  EditProductCategoryDialogComponent
+} from '../edit-product-category-dialog/edit-product-category-dialog.component';
+import {NgxSpinnerService} from 'ngx-spinner';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-product-category-detail',
@@ -22,6 +27,7 @@ export class ProductCategoryDetailComponent {
   appPages = AppPages;
 
   productCategory: ProductCategory;
+  productCategories: ProductCategory[];
 
   filteredProducts: Product[] | undefined;
 
@@ -36,8 +42,11 @@ export class ProductCategoryDetailComponent {
 
   productCategoryThumbnail = "assets/images/icon-category-default.png";
 
-  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService) {
+  constructor(private route: ActivatedRoute, private router: Router, private productService: ProductService,
+              private spinner: NgxSpinnerService, private dialogBox: MatDialog) {
+
     this.productCategory = this.route.snapshot.data['productCategory'];
+    this.productCategories = this.route.snapshot.data['productCategories'];
 
     this.tablePaginatorParams = this.route.snapshot.data['products'];
     this.tablePaginatorParams.current_page --;
@@ -140,6 +149,74 @@ export class ProductCategoryDetailComponent {
     });
   }
 
+  onEditCategory() {
+    const availableCategories$ = this.productCategories.filter(cat => cat.parent_category == null && cat.id !== this.productCategory.id);
+    this.dialogBox.open(EditProductCategoryDialogComponent, {
+      width: "600px",
+      disableClose: true,
+      data: {
+        edit: true,
+        category: this.productCategory,
+        availableCategories: availableCategories$
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        // this.fetchProductCategory();
+        location.reload();
+      }
+    })
+  }
+
+  onDeleteCategory() {
+    Swal.fire({
+      title: `Delete Category - ${this.productCategory.name}?`,
+      icon: "question",
+      html: `To confirm this action, please type <b><code>${this.productCategory.name}</code></b>`,
+      input: "text",
+      showCancelButton: true,
+      confirmButtonText: "Delete!",
+      showLoaderOnConfirm: true,
+      confirmButtonColor: AppConfig.COLORS.DANGER,
+      preConfirm: inputValue => {
+        if (inputValue !== '' && inputValue === this.productCategory.name) {
+          return inputValue;
+        } else {
+          Swal.showValidationMessage("Please type correct category name");
+        }
+      }
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.spinner.show("deletingSpinner");
+        this.productService.deleteProductCategory(this.productCategory).subscribe(e => {
+          this.spinner.hide("deletingSpinner");
+
+          Toast.fire({
+            icon: "success",
+            text: "Product category deleted: " + this.productCategory.name,
+          });
+
+          history.back();
+        },
+        error => {
+          this.spinner.hide("deletingSpinner");
+          console.log('err', error);
+          if (error.status === 400) {
+            Toast.fire({
+              icon: "warning",
+              text: "Cannot delete this record because it is referenced by other records",
+              position: "center"
+            });
+          } else {
+            Toast.fire({
+              icon: "error",
+              text: "Error while deleting record: Code - " + error.message,
+            })
+          }
+        });
+      }
+    })
+  }
+
   onSearchTable(searchTerm: string): void {
     searchTerm = searchTerm?.trim()?.toLowerCase() ?? null;
     console.log('searchTerm', searchTerm);
@@ -195,5 +272,20 @@ export class ProductCategoryDetailComponent {
         });
       }
     );
+  }
+
+  fetchProductCategory() {
+    this.spinner.show('loadingSpinner');
+    this.productService.getProductCategory(this.productCategory.id).subscribe(res => {
+      this.spinner.hide('loadingSpinner');
+      this.productCategory = (res as ResponseData).data
+    },
+    error => {
+      this.spinner.hide('loadingSpinner');
+      Toast.fire({
+        icon: 'error',
+        text: 'Error while fetching object'
+      })
+    });
   }
 }

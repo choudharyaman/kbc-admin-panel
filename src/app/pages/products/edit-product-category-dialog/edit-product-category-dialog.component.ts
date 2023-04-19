@@ -56,7 +56,7 @@ export class EditProductCategoryDialogComponent {
       this.dialogTitle = "Edit Category: " + `<span class='mat-text-primary'>&nbsp;${this.category.name}</span>`;
       this.form.patchValue({
         name: this.category.name,
-        parent_category: this.category.parent_category,
+        parent_category: this.category.parent_category.id,
         thumbnail: this.category.thumbnail ? this.category.thumbnail : null,
         is_active: this.category.is_active
       });

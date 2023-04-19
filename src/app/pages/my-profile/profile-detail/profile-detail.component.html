@@ -13,6 +13,8 @@
           <img alt="Profile Icon" class="profile-avatar" src="assets/images/icon-profile-avatar-default.png">
           <br>
           <h2 class="text-primary">{{ profile.first_name }} {{ profile.last_name }}</h2>
+          <strong>{{ profile.email }}</strong>
+          <br>
           <strong>{{ profile.role.replace('_', ' ') }}</strong>
           <br>
           <small class="text-secondary">{{ profile.created_at | date: 'medium' }}</small>

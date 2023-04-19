@@ -35,7 +35,6 @@ export class CustomerHomepageBannerComponent implements OnInit {
     active: number;
     urlBased: number;
     categoryBased: number;
-    vendorBased: number;
   }
 
   form: FormGroup;
@@ -51,8 +50,7 @@ export class CustomerHomepageBannerComponent implements OnInit {
       total: 0,
       active: 0,
       urlBased: 0,
-      categoryBased: 0,
-      vendorBased: 0
+      categoryBased: 0
     };
 
     /* generate form */
@@ -165,8 +163,7 @@ export class CustomerHomepageBannerComponent implements OnInit {
     this.bannerMetrics.total = this.banners.length;
     this.bannerMetrics.active = this.banners.filter(b => b.is_active).length;
     this.bannerMetrics.categoryBased = this.banners.filter(b => b.target_link_type === this.bannerTargetLinkTypes[1]).length;
-    this.bannerMetrics.vendorBased = this.banners.filter(b => b.target_link_type === this.bannerTargetLinkTypes[2]).length;
-    this.bannerMetrics.urlBased = this.banners.filter(b => b.target_link_type === this.bannerTargetLinkTypes[3]).length;
+    this.bannerMetrics.urlBased = this.banners.filter(b => b.target_link_type === this.bannerTargetLinkTypes[2]).length;
 
     // console.log("this.form", this.form)
     // console.log("this.bannerMetrics", this.bannerMetrics)

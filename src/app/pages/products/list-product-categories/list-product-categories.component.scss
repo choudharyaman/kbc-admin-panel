@@ -8,6 +8,13 @@
   border-radius: 3px
 }
 
+.table > tbody > tr {
+  cursor: pointer;
+  &:hover {
+    background-color: #f3f3f3;
+  }
+}
+
 .table td, .table th {
   vertical-align: middle !important
 }
