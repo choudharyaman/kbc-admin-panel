@@ -70,7 +70,7 @@ export class ProductService {
       qParam = qParam.set('search', query.search);
     }
 
-    this.http.get(Endpoints.PRODUCTS, {
+    return this.http.get(Endpoints.PRODUCTS, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)
@@ -100,7 +100,7 @@ export class ProductService {
       qParam = qParam.set('search', query.search);
     }
 
-    this.http.get(Endpoints.PRODUCTS, {
+    return this.http.get(Endpoints.PRODUCTS, {
       params: qParam
     }).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)

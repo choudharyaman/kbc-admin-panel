@@ -50,8 +50,8 @@ export interface Product {
 
   package_size: string;
 
-  tax: Tax;
-  discount: Discount;
+  tax: Tax | string | null;
+  discount: Discount | string | null;
 
   is_active: boolean;
 

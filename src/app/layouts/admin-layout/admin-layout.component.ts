@@ -68,7 +68,7 @@ export class AdminLayoutComponent implements OnInit {
           {
             label: 'All Products',
             icon:'fa-solid fa-prescription-bottle-medical',
-            routerLink: AppPages.products,
+            routerLink: AppPages.allProducts,
           },
           {
             label: 'All Categories',

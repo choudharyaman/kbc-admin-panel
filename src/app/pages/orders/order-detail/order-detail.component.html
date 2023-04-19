@@ -35,7 +35,7 @@
         </div>
         <div>
           <span *ngIf="order.is_paid" class="badge bg-success">YES</span>
-          <span *ngIf="!order.is_paid" class="badge bg-danger">NO</span>
+          <span *ngIf="!order.is_paid" class="badge bg-danger">NOT PAID</span>
         </div>
       </mat-card>
     </div>
@@ -175,9 +175,17 @@
               <!-- Modify Order -->
               <button mat-stroked-button color="primary"
                       *ngIf="[orderStatuses.PLACED.toString()].includes(order.status)"
-                      (click)="onModifyOrder()">
-                <mat-icon>edit</mat-icon>
-                Edit Order
+                      (click)="onModifyOrder()" (document:keydown.alt.m)="onModifyOrder()">
+                <mat-icon>edit_note</mat-icon>
+                Modify Order (Alt+M)
+              </button>
+              &nbsp;
+              <!-- Modify Order -->
+              <button mat-flat-button color="primary"
+                      *ngIf="[orderStatuses.PLACED.toString()].includes(order.status)"
+                      (click)="onAcceptOrder()" (document:keydown.alt.a)="onAcceptOrder()">
+                <mat-icon>check_circle_outline</mat-icon>
+                Accept Order (Alt+A)
               </button>
               &nbsp;
               <!-- Assign Delivery Agent Order -->

@@ -82,7 +82,7 @@ export class OrderService {
     )
   }
 
-  updateOrderItems(order: Order, orderItems: OrderItem[]) {
+  updateOrderItems(order: Order, orderItems: OrderItem[] | any[]) {
     return this.http.patch<ResponseData>(Endpoints.ORDER_ITEMS.replace(":orderId", order.id), orderItems).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)
     )

@@ -29,6 +29,7 @@ import {
 } from './components/users/change-user-password-dialog/change-user-password-dialog.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 
@@ -66,6 +67,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSnackBarModule,
     MatCheckboxModule,
     MatIconModule,
+    MatAutocompleteModule,
 
 
     NgxSpinnerModule
@@ -98,6 +100,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSnackBarModule,
     MatCheckboxModule,
     MatIconModule,
+    MatAutocompleteModule,
 
 
     NgxSpinnerModule

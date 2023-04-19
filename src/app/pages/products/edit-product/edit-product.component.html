@@ -1,0 +1,345 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6">
+      <h1 [innerHTML]="pageTitle">New Product</h1>
+    </div>
+    <div class="col-6 text-right">
+      <button mat-stroked-button color="warn" (click)="onDeleteProduct()">
+        <mat-icon>delete</mat-icon>
+        Delete Product
+      </button>
+      &nbsp;&nbsp;
+      <button mat-flat-button color="primary" (click)="onSaveProduct()">
+        <mat-icon>save</mat-icon>
+        Save Product
+      </button>
+      &nbsp;&nbsp;
+      <button mat-stroked-button (click)="onGoBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Go Back
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <form autocomplete="off" [formGroup]="form">
+    <div class="row">
+      <div class="col-8">
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Basic Details</h4>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-label>Product Name</mat-label>
+                  <input matInput required maxlength="100" formControlName="name" [readonly]="isEdit">
+                  <mat-error *ngIf="form.controls['name'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['name'].hasError('minlength')">
+                    Minimum 3 characters are <strong>required</strong>
+                    <br>
+                    Maximum 100 characters are <strong>allowed</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['name'].hasError('maxlength')">
+                    Minimum 3 characters are <strong>required</strong>
+                    <br>
+                    Maximum 100 characters are <strong>allowed</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['name'].hasError('serverError')">
+                    {{ form.controls['name'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3 text-center" style="padding-top: 15px;">
+                <mat-checkbox formControlName="prescription_required">
+                  Need Prescription?
+                </mat-checkbox>
+                <mat-error *ngIf="form.controls['prescription_required'].hasError('serverError')">
+                  {{ form.controls['prescription_required'].getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </div>
+              <div class="col-3 text-center" style="padding-top: 15px;">
+                <mat-checkbox formControlName="is_active">
+                  Mark Active?
+                </mat-checkbox>
+                <mat-error *ngIf="form.controls['is_active'].hasError('serverError')">
+                  {{ form.controls['is_active'].getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-label>Manufacturer</mat-label>
+                  <input matInput required maxlength="50" formControlName="manufacturer" [readonly]="isEdit">
+                  <mat-error *ngIf="form.controls['manufacturer'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['manufacturer'].hasError('minlength')">
+                    Minimum 3 characters are <strong>required</strong>
+                    <br>
+                    Maximum 50 characters are <strong>allowed</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['manufacturer'].hasError('maxlength')">
+                    Minimum 3 characters are <strong>required</strong>
+                    <br>
+                    Maximum 50 characters are <strong>allowed</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['manufacturer'].hasError('serverError')">
+                    {{ form.controls['manufacturer'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field>
+                  <mat-label>MRP</mat-label>
+                  <input matInput type="number" required min="1" formControlName="mrp">
+                  <mat-error *ngIf="form.controls['mrp'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['mrp'].hasError('minlength')">
+                    MRP should be <b>greater than 1</b>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['mrp'].hasError('serverError')">
+                    {{ form.controls['mrp'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field>
+                  <mat-label>Product Type</mat-label>
+                  <mat-select formControlName="product_type" required>
+                    <mat-option [value]="productTypes.OTC"> {{ productTypes.OTC}} </mat-option>
+                    <mat-option [value]="productTypes.DRUGS"> {{ productTypes.DRUGS}} </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="form.controls['product_type'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['product_type'].hasError('serverError')">
+                    {{ form.controls['product_type'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Packaging Details</h4>
+            <mat-form-field>
+              <mat-label>Package Size</mat-label>
+              <input matInput formControlName="package_size" required maxlength="40">
+              <mat-error *ngIf="form.controls['package_size'].hasError('required')">
+                This field is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['package_size'].hasError('maxlength')">
+                Maximum 40 characters are <strong>allowed</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['package_size'].hasError('serverError')">
+                {{ form.controls['package_size'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Tax &amp; Discount</h4>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-label>Applicable Tax</mat-label>
+                  <mat-select formControlName="tax">
+                    <mat-option [value]="null">
+                      <i class="text-secondary">-- No Tax --</i>
+                    </mat-option>
+                    <mat-option *ngFor="let tax of selectableTaxes" [value]="tax.id">
+                      {{ tax.title }} &middot; ({{ tax.tax }}%)
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="form.controls['tax'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['tax'].hasError('serverError')">
+                    {{ form.controls['tax'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-label>Applicable Discount</mat-label>
+                  <mat-select formControlName="discount">
+                    <mat-option [value]="null">
+                      <i class="text-secondary">-- No Discount --</i>
+                    </mat-option>
+                    <mat-option *ngFor="let discount of selectableDiscounts" [value]="discount.id">
+                      {{ discount.title }}
+                      &middot;
+                      ({{ discount.discount_type === discountTypes.RELATIVE ? discount.discount_amount + '%' : '₹' + discount.discount_amount }})
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="form.controls['discount'].hasError('required')">
+                    This field is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="form.controls['discount'].hasError('serverError')">
+                    {{ form.controls['discount'].getError('serverError').join(",") | titlecase }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Extra Information <small class="text-secondary">(optional)</small></h4>
+            <div class="html-editor-container">
+              <mat-label class="text-primary">Product Description</mat-label>
+              <angular-editor formControlName="description" placeholder="Product Description"
+                              [config]="htmlEditorConfig">
+              </angular-editor>
+              <mat-error *ngIf="form.controls['description'].hasError('minlength')">
+                Minimum 30 characters are <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['description'].hasError('serverError')">
+                {{ form.controls['description'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </div>
+            <br>
+            <div class="html-editor-container">
+              <mat-label class="text-primary">Salt / Ingredients</mat-label>
+              <angular-editor formControlName="ingredients" placeholder="Product's Salt / Ingredients"
+                              [config]="htmlEditorConfig">
+              </angular-editor>
+              <mat-error *ngIf="form.controls['ingredients'].hasError('minlength')">
+                Minimum 30 characters are <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['ingredients'].hasError('serverError')">
+                {{ form.controls['ingredients'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </div>
+            <br>
+            <div class="html-editor-container">
+              <mat-label class="text-primary">Product's Uses</mat-label>
+              <angular-editor formControlName="uses" placeholder="Product's Uses"
+                              [config]="htmlEditorConfig">
+              </angular-editor>
+              <mat-error *ngIf="form.controls['uses'].hasError('minlength')">
+                Minimum 30 characters are <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['uses'].hasError('serverError')">
+                {{ form.controls['uses'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </div>
+            <br>
+            <div class="html-editor-container">
+              <mat-label class="text-primary">Side Product's Side Effects</mat-label>
+              <angular-editor formControlName="side_effects" placeholder="Product's Side Effects"
+                              [config]="htmlEditorConfig">
+              </angular-editor>
+              <mat-error *ngIf="form.controls['side_effects'].hasError('minlength')">
+                Minimum 30 characters are <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.controls['side_effects'].hasError('serverError')">
+                {{ form.controls['side_effects'].getError('serverError').join(",") | titlecase }}
+              </mat-error>
+            </div>
+            <br>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-4">
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Product Categories</h4>
+            <mat-nav-list>
+              <ng-container *ngFor="let category of linkedCategories; let i=index">
+                <mat-list-item>
+                  <div class="row">
+                    <div class="col-10" style="display: flex; align-items: center;">
+                      {{ i+1 }}.
+                      &nbsp;
+                      <b>{{ category.name }}</b>
+                      &nbsp;
+                      <ng-container *ngIf="category.parent_category">
+                        <small>({{ category.parent_category.name }})</small>
+                      </ng-container>
+                    </div>
+                    <div class="col-2 text-right">
+                      <button mat-icon-button color="warn" (click)="onRemoveProductCategory(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </ng-container>
+            </mat-nav-list>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <div *ngIf="selectableCategories?.length">
+                  <mat-form-field>
+                    <mat-label>Select Category</mat-label>
+                    <mat-select>
+                      <ng-container *ngFor="let category of selectableCategories; let i=index">
+                        <mat-option (click)="onAddProductCategory(category)">
+                          <b>{{ category.name }}</b>
+                        </mat-option>
+                        <mat-option *ngFor="let subCategory of category.child_categories"
+                                    (click)="onAddProductCategory(subCategory)">
+                          — {{ subCategory.name }} ({{ category.name }})
+                        </mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="selectableCategories?.length === 0">
+                  <div class="text-secondary"><i>-- No more category(s) available --</i></div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card>
+          <mat-card-content><h4 class="text-primary">Related Products</h4>
+            <mat-nav-list>
+              <ng-container *ngFor="let rProduct of relatedProducts; let i=index">
+                <mat-list-item>
+                  <div class="row">
+                    <div class="col-10" style="display: flex; align-items: center;">
+                      {{ i+1 }}.&nbsp;<b>{{ rProduct.name }}</b>&nbsp;<small>({{ rProduct.package_size }})</small>
+                    </div>
+                    <div class="col-2 text-right">
+                      <button mat-icon-button color="warn" (click)="onRemoveRelatedProduct(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </ng-container>
+            </mat-nav-list>
+            <hr>
+            <mat-form-field>
+              <mat-label>Add Related Product</mat-label>
+              <input matInput type="text" placeholder="add a related product"
+                     [formControl]="searchProductInputField"
+                     [matAutocomplete]="productSelection">
+              <mat-autocomplete autoActiveFirstOption #productSelection="matAutocomplete"
+                                (optionSelected)="onAddRelatedProduct($event.option.value)">
+                <mat-option *ngFor="let product of filteredProducts" [value]="product">
+                  <b>{{ product.name }}</b> &middot; <small>({{ product.mrp }} &middot; {{ product.package_size }} &middot; {{ product.manufacturer }})</small>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+  <br>
+</div>

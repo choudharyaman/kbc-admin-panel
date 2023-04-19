@@ -1,0 +1,154 @@
+<ngx-spinner type="timer" size="medium" name="saveDialogSpinner" class="snippet-spinner">
+  <p>Saving Order Items</p>
+</ngx-spinner>
+
+<div class="kbc-dialog-header">
+  <h2>Edit Order Items</h2>
+  <div>
+    <button mat-icon-button (click)="onCloseDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+<div matDialogContent class="kbc-dialog-content">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Rate</th>
+      <th>Discount</th>
+      <th>Tax</th>
+      <th>Gross Amount</th>
+      <th>Net Amount</th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of orderItems; let i=index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.product.name }}</td>
+      <td>
+        <input placeholder="Quantity" type="number" min="1" style="width: 50px;"
+               #productQtyInputEl
+               (change)="onProductQuantityChange(i, productQtyInputEl.value)"
+               [value]="item.quantity">
+      </td>
+      <td>
+        {{ item.rate | currency }}
+      </td>
+      <td>
+        <mat-select class="std-input-field"
+                    [value]="item?.discount ? item.discount.id : null"
+                    (selectionChange)="onProductDiscountChange(i, $event.value)">
+          <mat-option [value]="null">
+            <i class="text-secondary"><small>-- No Discount --</small></i>
+          </mat-option>
+          <mat-optgroup label="Pre-Selected" *ngIf="item?.discount">
+            <mat-option [value]="item.discount.id">
+              <b>{{ item.discount.title }}</b>
+              -
+              {{ item.discount.discount_type === discountTypes.RELATIVE ? item.discount.discount_amount + '%' : '₹' + item.discount.discount_amount }}
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="All Discounts" *ngIf="availableDiscounts">
+            <mat-option *ngFor="let discount of availableDiscounts" [value]="discount.id">
+              <b>{{ discount.title }}</b>
+              -
+              {{ discount.discount_type === discountTypes.RELATIVE ? discount.discount_amount + '%' : '₹' + discount.discount_amount }}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </td>
+      <td>
+        <mat-select class="std-input-field"
+                    [value]="item?.tax ? item.tax.id : null"
+                    (selectionChange)="onProductTaxChange(i, $event.value)">
+          <mat-option [value]="null">
+            <i class="text-secondary"><small>-- No Tax --</small></i>
+          </mat-option>
+          <mat-optgroup label="Pre-Selected" *ngIf="item?.tax">
+            <mat-option [value]="item.tax.id">
+              <b>{{ item.tax.title }}</b> - {{ item.tax.tax }}%
+            </mat-option>
+          </mat-optgroup>
+          <mat-optgroup label="All Taxes" *ngIf="availableTaxes">
+            <mat-option *ngFor="let tax of availableTaxes" [value]="tax.id">
+              <b>{{ tax.title }}</b> - {{ tax.tax }}%
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </td>
+      <td>{{ item.gross_amount | currency }}</td>
+      <td>{{ item.net_amount | currency }}</td>
+      <td>
+        <button mat-icon-button color="warn" (click)="onRemoveProduct(i)">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>{{ orderItems.length }}</td>
+      <td colspan="8">
+        <mat-form-field>
+          <mat-label>Add Product</mat-label>
+          <input matInput type="text" placeholder="add a product"
+                 [formControl]="searchProductInputField"
+                 [matAutocomplete]="productSelection"
+          >
+          <mat-autocomplete autoActiveFirstOption #productSelection="matAutocomplete"
+                            (optionSelected)="onAddNewProduct($event.option.value)">
+            <mat-option *ngFor="let product of filteredProducts" [value]="product"
+                        (change)="onAddNewProduct(product)">
+              <b>{{ product.name }}</b> &middot; {{ product.mrp }} &middot; {{ product.package_size }} &middot; {{ product.manufacturer }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="7" style="text-align: right;"> Gross Amount</td>
+      <td> {{ orderMetrics.grossAmount | currency }} </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: right;"> Discount</td>
+      <td> {{ orderMetrics.discountAmount | currency }} </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: right;"> Taxes</td>
+      <td> {{ orderMetrics.taxAmount | currency }} </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: right;"> Net Amount</td>
+      <td>
+        <b>{{ orderMetrics.netAmount | currency }}</b>
+      </td>
+      <td></td>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+<mat-divider></mat-divider>
+<div matDialogActions class="kbc-dialog-footer text-right">
+  <button mat-stroked-button (click)="onCloseDialog()">
+    Cancel
+  </button>
+  &nbsp;
+  <button mat-stroked-button color="primary" (click)="onDiscardChanges()">
+    <mat-icon>refresh</mat-icon>
+    Discard Changes
+  </button>
+  &nbsp;
+  <button mat-flat-button color="primary" (click)="onSaveOrder()">
+    <mat-icon>save</mat-icon>
+    Save &amp; Confirm Order
+  </button>
+</div>

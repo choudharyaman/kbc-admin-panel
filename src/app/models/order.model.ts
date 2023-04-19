@@ -50,8 +50,8 @@ export interface OrderItem {
   quantity: number;
   rate: number;
 
-  tax: Tax;
-  discount: Discount;
+  tax: Tax | any;
+  discount: Discount | any;
 
   gross_amount: number;
   discount_amount: number;

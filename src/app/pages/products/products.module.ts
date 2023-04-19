@@ -6,18 +6,24 @@ import {SharedModule} from '../../shared/shared.module';
 import { ListProductsComponent } from './list-products/list-products.component';
 import { ListProductCategoriesComponent } from './list-product-categories/list-product-categories.component';
 import { EditProductCategoryDialogComponent } from './edit-product-category-dialog/edit-product-category-dialog.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
+import { ProductCategoryDetailComponent } from './product-category-detail/product-category-detail.component';
 
 
 @NgModule({
   declarations: [
     ListProductsComponent,
     ListProductCategoriesComponent,
-    EditProductCategoryDialogComponent
+    EditProductCategoryDialogComponent,
+    EditProductComponent,
+    ProductCategoryDetailComponent
   ],
   imports: [
     CommonModule,
     ProductsRoutingModule,
-    SharedModule
+    SharedModule,
+    AngularEditorModule
   ]
 })
 export class ProductsModule { }

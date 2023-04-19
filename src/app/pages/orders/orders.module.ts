@@ -5,16 +5,16 @@ import { OrdersRoutingModule } from './orders-routing.module';
 import {SharedModule} from '../../shared/shared.module';
 import { ListOrdersComponent } from './list-orders/list-orders.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
-import { EditOrderDialogComponent } from './edit-order-dialog/edit-order-dialog.component';
 import { DeliveryAgentAssignDialogComponent } from './delivery-agent-assign-dialog/delivery-agent-assign-dialog.component';
+import { EditOrderItemsDialogComponent } from './edit-order-items-dialog/edit-order-items-dialog.component';
 
 
 @NgModule({
   declarations: [
     ListOrdersComponent,
     OrderDetailComponent,
-    EditOrderDialogComponent,
-    DeliveryAgentAssignDialogComponent
+    DeliveryAgentAssignDialogComponent,
+    EditOrderItemsDialogComponent
   ],
   imports: [
     CommonModule,

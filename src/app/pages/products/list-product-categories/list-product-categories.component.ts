@@ -111,7 +111,6 @@ export class ListProductCategoriesComponent {
               text: "Error while deleting record: Code - " + error.message,
             })
           }
-
         })
       }
     })

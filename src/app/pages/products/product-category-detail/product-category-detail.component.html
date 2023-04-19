@@ -1,0 +1,202 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6">
+      <h1>Product Category:
+        <span class="text-primary">Baby Care</span>
+        &nbsp;
+        <span style="font-size: 16px;">
+          <small class="badge bg-success" *ngIf="productCategory.is_active">ACTIVE</small>
+          <small class="badge bg-danger" *ngIf="!productCategory.is_active">INACTIVE</small>
+        </span>
+      </h1>
+    </div>
+    <div class="col-6" style="text-align: right;"></div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col-9">
+      <div class="row">
+        <div class="col-2">
+          <mat-card>
+            <img class="img-fluid" [src]="productCategoryThumbnail">
+          </mat-card>
+        </div>
+        <div class="col-2">
+          <mat-card class="metrics-card" style="height: 100%;">
+            <div class="metrics-title">
+              <span>Products</span><span>linked</span></div>
+            <div class="metrics-number">{{ productCategory.linked_products_count }}</div>
+          </mat-card>
+        </div>
+        <div class="col-4">
+          <mat-card class="metrics-card" style="height: 100%;">
+            <div class="metrics-title">
+              <span>Parent Category</span><span>name</span></div>
+            <div class="text-secondary" *ngIf="!productCategory.parent_category">
+              <i>-- No Parent Category--</i>
+            </div>
+            <div class="metrics-number" *ngIf="productCategory.parent_category">
+              {{ productCategory.parent_category.name }}
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-4">
+          <mat-card class="metrics-card" style="height: 100%;">
+            <div class="metrics-title">
+              <span>Sub Categories</span><span>count</span></div>
+            <div class="metrics-number">
+              {{ productCategory.child_categories.length }}
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <mat-card>
+            <mat-card-content>
+              <mat-form-field>
+                <mat-label>Add Product</mat-label>
+                <input matInput type="text" placeholder="add a product"
+                       [formControl]="searchProductInputField"
+                       [matAutocomplete]="productSelection">
+                <mat-autocomplete autoActiveFirstOption #productSelection="matAutocomplete"
+                                  (optionSelected)="onAddNewProduct($event.option.value)">
+                  <mat-option *ngFor="let product of filteredProducts" [value]="product"
+                              (change)="onAddNewProduct(product)">
+                    <b>{{ product.name }}</b> &middot; {{ product.mrp }} &middot; {{ product.package_size }}
+                    &middot; {{ product.manufacturer }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <mat-card>
+            <mat-card-content>
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="kbc-table-search-field">
+                    <mat-label>Search Product(s)</mat-label>
+                    <input matInput [formControl]="tableSearchInputEl" placeholder="Ex. Dolo 650">
+                  </mat-form-field>
+                </div>
+                <div class="col-8">
+                  <mat-paginator color="primary" class="kbc-table-paginator"
+                                 [showFirstLastButtons]="true"
+                                 [length]="tablePaginatorParams.records"
+                                 [pageSize]="tablePaginatorParams.page_size"
+                                 [pageIndex]="tablePaginatorParams.current_page"
+                                 [pageSizeOptions]="appConfig.PAGINATION.PAGE_SIZE_OPTIONS"
+                                 (page)="onChangeTablePage($event)">
+                  </mat-paginator>
+                </div>
+              </div>
+
+              <table mat-table [dataSource]="tableDataSource" class="kbc-object-table" matSort>
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> #</th>
+                  <td mat-cell *matCellDef="let row; let i = index"> {{i + 1}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+                  <td mat-cell *matCellDef="let row"><strong>{{row.name}}</strong></td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="product_type">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Type</th>
+                  <td mat-cell *matCellDef="let row"> {{ row.product_type }} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="manufacturer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Manufacturer</th>
+                  <td mat-cell *matCellDef="let row"> {{row.manufacturer}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="mrp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> MRP</th>
+                  <td mat-cell *matCellDef="let row"> {{ row.mrp | currency }} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="package_size">
+                  <th mat-header-cell *matHeaderCellDef> Package Size</th>
+                  <td mat-cell *matCellDef="let row"> {{ row.package_size }} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="is_active">
+                  <th mat-header-cell *matHeaderCellDef> Is Active</th>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.is_active" class="badge bg-success">YES</span>
+                    <span *ngIf="!row.is_active" class="badge bg-danger">NO</span>
+                  </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="created_at">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Created On</th>
+                  <td mat-cell *matCellDef="let row"><small>{{ row.created_at | date: 'medium' }}</small></td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button color="warn" (click)="$event.stopPropagation(); onRemoveProduct(row)">
+                      <mat-icon>remove_circle</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableColumns;"
+                    [routerLink]="[appPages.editProducts.replace(':productId', row.id)]"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" [attr.colspan]="tableColumns.length" style="color: red; text-align: center">
+                    No Orders(s)
+                    {{ tableSearchTerm == '' ? '' : 'matching the search "' + tableSearchTerm + '"'}}
+                  </td>
+                </tr>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <mat-card>
+        <mat-card-content>
+          <h4 class="text-primary">Sub Categories</h4>
+          <mat-nav-list *ngIf="productCategory.child_categories.length > 0">
+            <mat-list-item *ngFor="let subCategory of productCategory.child_categories; let i=index">
+              <div>
+                <b>{{ i + 1 }}. {{ subCategory.name }}</b>
+              </div>
+            </mat-list-item>
+          </mat-nav-list>
+          <div *ngIf="productCategory.child_categories.length === 0">
+            <i class="text-secondary">-- No Sub Categories --</i>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

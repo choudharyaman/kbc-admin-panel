@@ -10,12 +10,12 @@ import {AppPages} from '../../../config/app.pages';
 import {ResponseData} from '../../../models/paginator.model';
 import {Toast} from '../../../utils/toast';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {EditOrderDialogComponent} from '../edit-order-dialog/edit-order-dialog.component';
 import {
   DeliveryAgentAssignDialogComponent
 } from '../delivery-agent-assign-dialog/delivery-agent-assign-dialog.component';
 import {AppConfig} from '../../../config/app.config';
 import Swal from 'sweetalert2';
+import {EditOrderItemsDialogComponent} from '../edit-order-items-dialog/edit-order-items-dialog.component';
 
 @Component({
   selector: 'app-order-detail',
@@ -163,7 +163,7 @@ export class OrderDetailComponent {
       return
     }
 
-    this.dialogBox.open(EditOrderDialogComponent, {
+    this.dialogBox.open(EditOrderItemsDialogComponent, {
       width: "80%",
       disableClose: true,
       data: {

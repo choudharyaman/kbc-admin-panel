@@ -9,7 +9,9 @@ export const AppPages = {
   inTransitOrders: '/orders/in-transit',
   allOrders: '/orders/all',
 
-  products: '/products/all',
+  allProducts: '/products/all',
+  newProducts: '/products/new',
+  editProducts: '/products/:productId/edit',
   productCategories: '/products/categories',
 
   customers: '/customers',
