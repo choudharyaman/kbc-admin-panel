@@ -184,7 +184,7 @@ export class EditOrderItemsDialogComponent {
       if (this.orderItems.length > 0) {
         Swal.fire({
           icon: "question",
-          title: "Confirm save the Order # " + this.order.order_number,
+          title: "Confirm save order item(s) for Order # " + this.order.order_number,
           showCancelButton: true,
           cancelButtonText: "Cancel",
           confirmButtonText: "Yes, Proceed",

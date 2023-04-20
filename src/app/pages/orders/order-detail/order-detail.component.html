@@ -96,7 +96,7 @@
         <mat-card-content>
           <h2 class="text-primary">Bill for Ordered Items</h2>
           <mat-divider></mat-divider>
-          <table id="orderItemTable" class="table">
+          <table id="orderItemTable" class="table" *ngIf="order.order_items.length > 0">
             <thead>
             <tr>
               <th>#</th>
@@ -156,6 +156,10 @@
             </tr>
             </tfoot>
           </table>
+          <div *ngIf="order.order_items.length === 0">
+            <br>
+            <i class="text-secondary">-- No Ordered Item(s) --</i>
+          </div>
         </mat-card-content>
       </mat-card>
       <br>

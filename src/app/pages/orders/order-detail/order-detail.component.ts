@@ -102,6 +102,16 @@ export class OrderDetailComponent {
       return;
     }
 
+    if(this.order.order_items.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        text: 'To accept this order, please add product(s).',
+        confirmButtonText: "Okay",
+        confirmButtonColor: AppConfig.COLORS.PRIMARY
+      });
+      return;
+    }
+
     this.updateOrder({
       id: this.order.id,
       status: this.orderStatuses.CONFIRMED
@@ -182,7 +192,7 @@ export class OrderDetailComponent {
     Swal.fire({
       icon: "question",
       title: dialogTitle,
-      showCancelButton: !0,
+      showCancelButton: true,
       cancelButtonText: "No, Go Back",
       confirmButtonText: "Yes, Proceed",
       confirmButtonColor: dialogConfirmButtonColor
