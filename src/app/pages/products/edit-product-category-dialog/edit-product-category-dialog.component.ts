@@ -39,6 +39,10 @@ export class EditProductCategoryDialogComponent {
               private spinner: NgxSpinnerService, private snackBar: MatSnackBar, private fb: FormBuilder,
               private fileUploadService: FileUploadService, private httpErrorHandler: HttpErrorHandlerService) {
 
+    this.isEdit = this.dialogData.edit;
+    this.category = this.dialogData.category;
+    this.availableCategories = this.dialogData.availableCategories;
+
     this.form = this.fb.group({
       name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       parent_category: [null],
@@ -46,17 +50,12 @@ export class EditProductCategoryDialogComponent {
       is_active: [true, [Validators.required]]
     });
 
-
-    this.availableCategories = this.dialogData.availableCategories;
-    this.isEdit = this.dialogData.edit;
-    this.category = this.dialogData.category;
-
     if (this.isEdit) {
       this.category = this.dialogData.category;
       this.dialogTitle = "Edit Category: " + `<span class='mat-text-primary'>&nbsp;${this.category.name}</span>`;
       this.form.patchValue({
         name: this.category.name,
-        parent_category: this.category.parent_category.id,
+        parent_category: this.category.parent_category?.id,
         thumbnail: this.category.thumbnail ? this.category.thumbnail : null,
         is_active: this.category.is_active
       });
