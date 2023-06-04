@@ -116,7 +116,7 @@
               <td>{{ item.quantity }}</td>
               <td>{{ item.rate | currency }}</td>
               <td>
-              <span *ngIf="item.tax; else noItemTax">
+              <span *ngIf="item?.tax; else noItemTax">
                 {{ item?.tax_amount | currency }}
                 <small>( {{ item.tax.title }} )</small>
               </span>
@@ -126,7 +126,7 @@
               </td>
               <td>{{ item.gross_amount | currency }}</td>
               <td>
-              <span *ngIf="item.discount; else noItemDiscount">
+              <span *ngIf="item?.discount; else noItemDiscount">
               {{ item?.discount_amount | currency }}
                 <small>( {{ item.discount.title }} )</small>
               </span>
