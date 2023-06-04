@@ -168,6 +168,20 @@
               </mat-form-field>
               <br>
               <mat-form-field appearance="outline">
+                <input matInput formControlName="shipping" type="url" required>
+                <mat-label>Shipping Policy <small>(Web Link)</small></mat-label>
+                <mat-error *ngIf="form.get('business_policies.shipping')?.hasError('required')">
+                  This field is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.shipping')?.hasError('url')">
+                  <strong>Invalid</strong> Shipping Policy
+                </mat-error>
+                <mat-error *ngIf="form.get('business_policies.shipping')?.hasError('serverError')">
+                  {{ form.get('business_policies.shipping')?.getError('serverError').join(",") | titlecase }}
+                </mat-error>
+              </mat-form-field>
+              <br>
+              <mat-form-field appearance="outline">
                 <input matInput formControlName="refund" type="url" required>
                 <mat-label>Refund Policy <small>(Web Link)</small></mat-label>
                 <mat-error *ngIf="form.get('business_policies.refund')?.hasError('required')">

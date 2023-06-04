@@ -155,15 +155,15 @@ export class EditOrderItemsDialogComponent {
         item.discount_amount = 0;
       }
 
+      item.net_amount = item.gross_amount - item.discount_amount;
+
       if (item?.tax) {
-        const taxableAmount = item.gross_amount - item.discount_amount;
-        item.tax_amount = taxableAmount * (item.tax.tax / 100);
+        item.tax_amount = item.net_amount - (item.net_amount * (100 / (100 + item.tax.tax)));
         item.tax_amount = parseFloat(item.tax_amount.toFixed(2));
       } else {
         item.tax_amount = 0;
       }
 
-      item.net_amount = item.gross_amount - item.discount_amount + item.tax_amount;
       item.net_amount = parseFloat(item.net_amount.toFixed(2));
 
       grossAmount += item.gross_amount;
@@ -175,7 +175,7 @@ export class EditOrderItemsDialogComponent {
     this.orderMetrics.grossAmount = grossAmount;
     this.orderMetrics.discountAmount = discountAmount;
     this.orderMetrics.taxAmount = taxAmount;
-    this.orderMetrics.netAmount = netAmount;
+    this.orderMetrics.netAmount = Math.ceil(netAmount);
 
   }
 

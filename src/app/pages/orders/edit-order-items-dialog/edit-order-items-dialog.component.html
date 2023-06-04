@@ -91,9 +91,9 @@
       </td>
     </tr>
     <tr>
-      <td>{{ orderItems.length }}</td>
+      <td>{{ orderItems.length + 1 }}</td>
       <td colspan="8">
-        <mat-form-field>
+        <mat-form-field style="margin-bottom: 2px;">
           <mat-label>Add Product</mat-label>
           <input matInput type="text" placeholder="add a product"
                  [formControl]="searchProductInputField"

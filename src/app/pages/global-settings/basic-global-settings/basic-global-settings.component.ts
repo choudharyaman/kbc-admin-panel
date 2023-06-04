@@ -39,6 +39,7 @@ export class BasicGlobalSettingsComponent {
       business_policies: this.fb.group({
         tnc: [null, [Validators.required, CustomFormValidators.url]],
         privacy: [null, [Validators.required, CustomFormValidators.url]],
+        shipping: [null, [Validators.required, CustomFormValidators.url]],
         refund: [null, [Validators.required, CustomFormValidators.url]]
       })
     })
