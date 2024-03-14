@@ -7,7 +7,7 @@ import {MobileAppService} from "../../../services/mobile-app.service";
 import {AppConfig} from "../../../config/app.config";
 import Swal from "sweetalert2";
 import {Toast} from "../../../utils/toast";
-import {AppCustomerAlertMessage} from '../../../models/mobile-app.model';
+import {MobileAppAlertMessage} from '../../../models/mobile-app.model';
 
 @Component({
   selector: 'app-customer-alert-message',
@@ -15,7 +15,7 @@ import {AppCustomerAlertMessage} from '../../../models/mobile-app.model';
   styleUrls: ['./customer-alert-message.component.scss']
 })
 export class CustomerAlertMessageComponent implements OnInit {
-  alertMessages: AppCustomerAlertMessage;
+  alertMessages: MobileAppAlertMessage;
   alertIconTypes = AppConfig.MOBILE_APP_ALERT_MESSAGE.ICON_TYPE;
   alertDisplayType = AppConfig.MOBILE_APP_ALERT_MESSAGE.DISPLAY_TYPE;
   form: FormGroup;

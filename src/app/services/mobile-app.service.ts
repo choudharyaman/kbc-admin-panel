@@ -3,7 +3,7 @@ import {HttpClient, HttpEventType} from "@angular/common/http";
 import {HttpErrorHandlerService} from "./http-error-handler.service";
 import {Endpoints} from "../config/endpoints";
 import {catchError, map} from "rxjs";
-import {AppCustomerAlertMessage, MobileAppBanner} from '../models/mobile-app.model';
+import {MobileAppAlertMessage, MobileAppBanner, MobileAppGlobalSettings} from '../models/mobile-app.model';
 
 @Injectable({
   providedIn: 'root'
@@ -82,8 +82,20 @@ export class MobileAppService {
     )
   }
 
-  updateCustomerAppAlertMessages(alert: AppCustomerAlertMessage) {
+  updateCustomerAppAlertMessages(alert: MobileAppAlertMessage) {
     return this.http.patch(Endpoints.MOBILE_APP_CUSTOMER_ALERT_MESSAGE, alert).pipe(
+      catchError(this.httpErrorHandler.handleError).bind(this)
+    )
+  }
+
+  getCustomerAppGlobalSettings() {
+    return this.http.get(Endpoints.MOBILE_APP_CUSTOMER_GLOBAL_SETTINGS).pipe(
+      catchError(this.httpErrorHandler.handleError).bind(this)
+    )
+  }
+
+  updateCustomerAppGlobalSettings(settings: MobileAppGlobalSettings) {
+    return this.http.patch(Endpoints.MOBILE_APP_CUSTOMER_GLOBAL_SETTINGS, settings).pipe(
       catchError(this.httpErrorHandler.handleError).bind(this)
     )
   }

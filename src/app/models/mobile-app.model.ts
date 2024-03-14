@@ -37,7 +37,22 @@ interface _AlertMessage {
   is_active: boolean;
 }
 
-export interface AppCustomerAlertMessage {
+export interface MobileAppAlertMessage {
   android_alert_message: _AlertMessage;
   ios_alert_message: _AlertMessage;
+}
+
+interface _MobileAppProductSettings {
+  show_price: boolean,
+  show_image: boolean
+}
+interface _MobileAppVersions {
+  min: string,
+  latest: string
+}
+
+export interface MobileAppGlobalSettings {
+  product: _MobileAppProductSettings;
+  android_version: _MobileAppVersions;
+  ios_version: _MobileAppVersions
 }

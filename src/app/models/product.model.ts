@@ -3,7 +3,11 @@ import {Discount} from './discount.model';
 
 export enum ProductType {
   OTC = 'OTC',
-  DRUGS = 'DRUGS'
+  DRUGS = 'DRUGS',
+  COSMETIC = 'COSMETIC',
+  MEDICAL_INSTRUMENT = 'MEDICAL_INSTRUMENT',
+  MEDICAL_EQUIPMENT = 'MEDICAL_EQUIPMENT',
+  OTHER = 'OTHER'
 }
 
 export interface ProductMetrics {

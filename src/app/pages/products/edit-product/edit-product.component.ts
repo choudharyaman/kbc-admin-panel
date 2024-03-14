@@ -28,7 +28,7 @@ export class EditProductComponent {
   productTypes = ProductType;
   discountTypes = DiscountType;
 
-  product: Product;
+  product: Product | undefined;
 
   allActiveProductCategories: ProductCategory[];
   allActiveDiscounts: Discount[];
@@ -68,7 +68,7 @@ export class EditProductComponent {
       manufacturer: [null, [Validators.required, Validators.minLength(3)]],
       mrp: [null, [Validators.required, Validators.min(1)]],
       product_type: [null, [Validators.required]],
-      prescription_required: [null, [Validators.required]],
+      prescription_required: [false, [Validators.required]],
       package_size: [null, [Validators.required, Validators.maxLength(40)]],
 
       tax: [null],
@@ -79,31 +79,29 @@ export class EditProductComponent {
       uses: [null],
       side_effects: [null],
 
-      is_active: [null, [Validators.required]],
+      is_active: [true, [Validators.required]],
       categories: this.fb.array([]),
       related_products: this.fb.array([])
     });
 
     this.isEdit = this.route.snapshot.data['isEdit'];
-    this.product = this.route.snapshot.data['product'];
     this.allActiveProductCategories = this.route.snapshot.data['allActiveProductCategories'];
     this.allActiveDiscounts = this.route.snapshot.data['allActiveDiscounts'];
     this.allActiveTaxes = this.route.snapshot.data['allActiveTaxes'];
 
     this.selectableDiscounts = JSON.parse(JSON.stringify(this.allActiveDiscounts)) as Discount[];
-    // if (this.product?.discount) {
-    //   this.selectableDiscounts.unshift(this.product.discount as Discount)
-    // }
-
     this.selectableTaxes = JSON.parse(JSON.stringify(this.allActiveTaxes)) as Tax[];
-    // if (this.product?.tax) {
-    //   this.selectableTaxes.unshift(this.product.tax as Tax);
-    // }
-
-    this.linkedCategories = JSON.parse(JSON.stringify(this.product.categories));
-    this.relatedProducts = JSON.parse(JSON.stringify(this.product.related_products));
-
     this.selectableCategories = [];
+
+    if(this.isEdit) {
+      this.product = this.route.snapshot.data['product'];
+      this.linkedCategories = JSON.parse(JSON.stringify(this.product?.categories));
+      this.relatedProducts = JSON.parse(JSON.stringify(this.product?.related_products));
+    } else {
+      this.linkedCategories = [];
+      this.relatedProducts = [];
+    }
+
     this.filterSelectableProductCategory();
 
     if (this.isEdit) {
@@ -116,6 +114,10 @@ export class EditProductComponent {
     } else {
       this.pageTitle = 'New Product';
       this.form.reset();
+      this.form.patchValue({
+        prescription_required: false,
+        is_active: true
+      });
     }
   }
 
@@ -146,6 +148,8 @@ export class EditProductComponent {
   }
 
   onSaveProduct() {
+    console.log('this.form.invalid', this.form.invalid);
+    console.log('this.form', this.form);
     if (this.form.invalid) {
       Swal.fire({
         icon: "error",
@@ -168,7 +172,7 @@ export class EditProductComponent {
 
     let api;
     if (this.isEdit) {
-      formData.id = this.product.id;
+      formData.id = this.product?.id as string;
       api = this.productService.updateProduct(formData);
     } else {
       api = this.productService.createProduct(formData);
@@ -200,12 +204,12 @@ export class EditProductComponent {
           showConfirmButton: true,
           showCancelButton: true,
           confirmButtonText: "Add More Product(s)",
-          cancelButtonText: "Okay, go back!"
+          cancelButtonText: "Okay!"
         }).then(result => {
           if(result.isConfirmed) {
-            history.back();
-          } else {
             location.reload();
+          } else {
+            this.router.navigate(['../', 'all'], {relativeTo: this.route});
           }
         })
       }
@@ -229,16 +233,16 @@ export class EditProductComponent {
 
   onDeleteProduct() {
     Swal.fire({
-      title: `Delete tax record: ${this.product.name}?`,
+      title: `Delete tax record: ${this.product?.name}?`,
       icon: "question",
-      html: `To confirm this action, please type <b><code>${this.product.name}</code></b>`,
+      html: `To confirm this action, please type <b><code>${this.product?.name}</code></b>`,
       input: "text",
       showCancelButton: true,
       confirmButtonText: "Delete!",
       showLoaderOnConfirm: true,
       confirmButtonColor: AppConfig.COLORS.DANGER,
       preConfirm: inputValue => {
-        if (inputValue !== '' && inputValue === this.product.name) {
+        if (inputValue !== '' && inputValue === this.product?.name) {
           return inputValue;
         } else {
           Swal.showValidationMessage("Please type correct product name");
@@ -248,13 +252,13 @@ export class EditProductComponent {
       if (result.isConfirmed) {
         this.spinner.show("deletingSpinner");
 
-        this.productService.deleteProduct(this.product).subscribe(t => {
+        this.productService.deleteProduct(this.product as Product).subscribe(t => {
           this.spinner.hide("deletingSpinner");
 
           Swal.fire({
             position: "top-end",
             icon: "success",
-            text: "Product deleted: " + this.product.name,
+            text: "Product deleted: " + this.product?.name,
             timer: AppConfig.DURATIONS.TOAST_DISPLAY_TIME_MS
           });
 

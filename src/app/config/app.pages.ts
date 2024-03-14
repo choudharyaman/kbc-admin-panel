@@ -25,6 +25,7 @@ export const AppPages = {
   appMobile: '/mobile-apps',
   appMobileCustomerBanner: '/mobile-apps/customer-banners',
   appMobileCustomerAlert: '/mobile-apps/customer-alert-message',
+  appMobileCustomerGlobalSettings: '/mobile-apps/global-settings',
 
   globalSettings: '/global-settings',
   staff: '/staff',

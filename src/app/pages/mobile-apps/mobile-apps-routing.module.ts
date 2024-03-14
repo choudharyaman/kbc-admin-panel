@@ -7,6 +7,10 @@ import {
 } from './resolvers/customer-homepage.resolver';
 import {CustomerAlertMessageComponent} from './customer-alert-message/customer-alert-message.component';
 import {CustomerAlertMessageResolver} from './resolvers/alert-message.resolver';
+import {
+  CustomerAppGlobalSettingsComponent
+} from './customer-app-global-settings/customer-app-global-settings.component';
+import {CustomerAppGlobalSettingsResolver} from './resolvers/app-settings.resolver';
 
 const routes: Routes = [
   {
@@ -29,6 +33,13 @@ const routes: Routes = [
       alertMessages: CustomerAlertMessageResolver
     }
   },
+  {
+    path: 'global-settings',
+    component: CustomerAppGlobalSettingsComponent,
+    resolve: {
+      appSettings: CustomerAppGlobalSettingsResolver
+    }
+  }
 ];
 
 @NgModule({

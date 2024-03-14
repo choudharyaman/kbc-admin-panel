@@ -8,13 +8,15 @@ import {
   SelectBannerImageDialogComponent
 } from './customer-homepage-banner/select-banner-image-dialog/select-banner-image-dialog.component';
 import {CustomerAlertMessageComponent} from './customer-alert-message/customer-alert-message.component';
+import { CustomerAppGlobalSettingsComponent } from './customer-app-global-settings/customer-app-global-settings.component';
 
 
 @NgModule({
   declarations: [
     CustomerHomepageBannerComponent,
     SelectBannerImageDialogComponent,
-    CustomerAlertMessageComponent
+    CustomerAlertMessageComponent,
+    CustomerAppGlobalSettingsComponent
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,10 @@
       <h1>{{ pageTitle }}</h1>
     </div>
     <div class="col-6 text-right">
-
+      <button mat-flat-button color="primary" (click)="onAddNewProduct()">
+        <mat-icon>add</mat-icon>
+        Add Product
+      </button>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -149,7 +152,7 @@
     <!-- Row shown when there is no matching data. -->
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" [attr.colspan]="tableColumns.length" style="color: red; text-align: center">
-        No Orders(s)
+        No Products(s)
         {{ tableSearchTerm == '' ? '' : 'matching the search "'+ tableSearchTerm +'"'}}
       </td>
     </tr>

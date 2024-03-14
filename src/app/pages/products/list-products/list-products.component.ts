@@ -112,4 +112,8 @@ export class ListProductsComponent {
       }
     );
   }
+
+  async onAddNewProduct() {
+    await this.router.navigate(['../', 'new'], {relativeTo: this.route});
+  }
 }

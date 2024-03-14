@@ -34,6 +34,7 @@ export const Endpoints = {
   MOBILE_APP_BANNERS: API_BASE_URL + "/v1/mobile-apps/banners",
   MOBILE_APP_BANNER_FILES: API_BASE_URL + "/v1/mobile-apps/banners/files",
   MOBILE_APP_CUSTOMER_ALERT_MESSAGE: API_BASE_URL + "/v1/mobile-apps/alert-message",
+  MOBILE_APP_CUSTOMER_GLOBAL_SETTINGS: API_BASE_URL + "/v1/mobile-apps/global-settings",
   GLOBAL_SETTINGS: API_BASE_URL + "/v1/global-settings",
   UPLOAD_PRODUCT_IMAGES: API_BASE_URL + "/v1/upload/product-images",
   UPLOAD_PROFILE_AVATARS: API_BASE_URL + "/v1/upload/profile-avatar",

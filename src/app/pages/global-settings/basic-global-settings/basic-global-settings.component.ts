@@ -62,9 +62,9 @@ export class BasicGlobalSettingsComponent {
     const formData: GlobalSetting = this.form.value;
     console.log("formData", formData)
 
-    this.spinner.show("saveDialogSpinner");
+    this.spinner.show("savingSpinner");
     this.service.updateGlobalSettings(this.form.value).subscribe(res => {
-      this.spinner.hide("saveDialogSpinner");
+      this.spinner.hide("savingSpinner");
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -75,7 +75,7 @@ export class BasicGlobalSettingsComponent {
       })
     },
     error => {
-      this.spinner.hide("saveDialogSpinner");
+      this.spinner.hide("savingSpinner");
       if (error.status == 400) {
         Object.keys(error.error).forEach(f => {
           this.form.controls[f].setErrors({

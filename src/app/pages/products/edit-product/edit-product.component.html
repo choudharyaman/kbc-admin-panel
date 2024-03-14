@@ -110,8 +110,12 @@
                 <mat-form-field>
                   <mat-label>Product Type</mat-label>
                   <mat-select formControlName="product_type" required>
-                    <mat-option [value]="productTypes.OTC"> {{ productTypes.OTC}} </mat-option>
-                    <mat-option [value]="productTypes.DRUGS"> {{ productTypes.DRUGS}} </mat-option>
+                    <mat-option [value]="productTypes.OTC"> OTC </mat-option>
+                    <mat-option [value]="productTypes.DRUGS"> Drug </mat-option>
+                    <mat-option [value]="productTypes.COSMETIC"> Cosmetic </mat-option>
+                    <mat-option [value]="productTypes.MEDICAL_INSTRUMENT"> Medical Instrument </mat-option>
+                    <mat-option [value]="productTypes.MEDICAL_EQUIPMENT"> Medical Equipment </mat-option>
+                    <mat-option [value]="productTypes.OTHER"> Other </mat-option>
                   </mat-select>
                   <mat-error *ngIf="form.controls['product_type'].hasError('required')">
                     This field is <strong>required</strong>

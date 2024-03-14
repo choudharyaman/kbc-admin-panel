@@ -44,23 +44,22 @@ const routes: Routes = [
     }
   },
   {
-    path: ':productId/edit',
+    path: 'new',
     component: EditProductComponent,
     data: {
-      isEdit: true,
+      isEdit: false,
     },
     resolve: {
-      product: ProductResolver,
       allActiveProductCategories: ActiveProductCategoriesResolver,
       allActiveDiscounts: ActiveDiscountsResolver,
       allActiveTaxes: ActiveTaxesResolver
     }
   },
   {
-    path: 'new',
+    path: ':productId/edit',
     component: EditProductComponent,
     data: {
-      isEdit: false,
+      isEdit: true,
     },
     resolve: {
       product: ProductResolver,

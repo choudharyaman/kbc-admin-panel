@@ -129,6 +129,11 @@ export class AdminLayoutComponent implements OnInit {
             label: `Alert Message`,
             icon:'fa-solid fa-circle-exclamation',
             routerLink: AppPages.appMobileCustomerAlert
+          },
+          {
+            label: `App Settings`,
+            icon:'fa fa-cogs',
+            routerLink: AppPages.appMobileCustomerGlobalSettings
           }
         ]
       },

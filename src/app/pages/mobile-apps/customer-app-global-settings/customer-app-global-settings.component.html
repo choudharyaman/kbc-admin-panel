@@ -1,0 +1,135 @@
+<div class="app-sub-container">
+  <div class="row">
+    <div class="col-6">
+      <h1>Customer App Global Setting</h1>
+    </div>
+    <div class="col-6 text-right">
+      <div class="text-right">
+        <button mat-flat-button color="primary" (click)="onSaveSettings()">
+          <mat-icon>save</mat-icon> Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <br>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="form">
+        <mat-card>
+          <mat-card-content>
+            <h3 class="text-primary card-title">
+              <mat-icon>inventory_2</mat-icon>&nbsp;&nbsp; Product Settings
+            </h3>
+            <mat-divider></mat-divider>
+            <br>
+            <div formGroupName="product">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Show Price</mat-label>
+                    <mat-select formControlName="show_price">
+                      <mat-option [value]="true">YES</mat-option>
+                      <mat-option [value]="false">NO</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('product.show_price')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('product.show_price')?.hasError('serverError')">
+                      {{ form.get('product.show_price')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Show Image</mat-label>
+                    <mat-select formControlName="show_image">
+                      <mat-option [value]="true">YES</mat-option>
+                      <mat-option [value]="false">NO</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="form.get('product.show_image')?.hasError('required')">
+                      This field is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="form.get('product.show_image')?.hasError('serverError')">
+                      {{ form.get('product.show_image')?.getError('serverError').join(",") | titlecase }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card>
+          <mat-card-content>
+            <h3 class="text-primary card-title">
+              <mat-icon>mobile_friendly</mat-icon>&nbsp;&nbsp; App Versions
+            </h3>
+            <mat-divider></mat-divider>
+            <br>
+            <div class="row">
+              <div class="col-6">
+                <div class="row" formGroupName="android_version">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Android Min Version</mat-label>
+                      <input matInput formControlName="min" required maxlength="10">
+                      <mat-error *ngIf="form.get('android_version.min')?.hasError('required')">
+                        This field is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="form.get('android_version.min')?.hasError('serverError')">
+                        {{ form.get('android_version.min')?.getError('serverError').join(",") | titlecase }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Android Latest Version</mat-label>
+                      <input matInput formControlName="latest" required maxlength="10">
+                      <mat-error *ngIf="form.get('android_version.latest')?.hasError('required')">
+                        This field is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="form.get('android_version.latest')?.hasError('serverError')">
+                        {{ form.get('android_version.latest')?.getError('serverError').join(",") | titlecase }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="row" formGroupName="ios_version">
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Apple Min Version</mat-label>
+                      <input matInput formControlName="min" required maxlength="10">
+                      <mat-error *ngIf="form.get('ios_version.min')?.hasError('required')">
+                        This field is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="form.get('ios_version.min')?.hasError('serverError')">
+                        {{ form.get('ios_version.min')?.getError('serverError').join(",") | titlecase }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Apple Latest Version</mat-label>
+                      <input matInput formControlName="latest" required maxlength="10">
+                      <mat-error *ngIf="form.get('ios_version.latest')?.hasError('required')">
+                        This field is <strong>required</strong>
+                      </mat-error>
+                      <mat-error *ngIf="form.get('ios_version.latest')?.hasError('serverError')">
+                        {{ form.get('ios_version.latest')?.getError('serverError').join(",") | titlecase }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>
