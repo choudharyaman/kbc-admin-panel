@@ -1,6 +1,16 @@
 import {Tax} from './tax.model';
 import {Discount} from './discount.model';
 
+export enum ProductImageFor {
+  PRODUCT = 'product',
+  PRODUCT_CATEGORY = 'category'
+}
+
+export enum ProductImageRole {
+  THUMBNAIL = 'THUMBNAIL',
+  CAROUSEL = 'CAROUSEL'
+}
+
 export enum ProductType {
   OTC = 'OTC',
   DRUGS = 'DRUGS',
@@ -18,6 +28,14 @@ export interface ProductMetrics {
   total_products: number;
 }
 
+export interface ProductImage {
+  id: string;
+  image_for: ProductImageFor;
+  image_role: ProductImageRole;
+  file_relative_path: string;
+  file_absolute_path: string;
+}
+
 export interface ProductCategory {
   id: string;
 
@@ -27,7 +45,7 @@ export interface ProductCategory {
   name: string;
   slug: string;
   thumbnail: string;
-  thumbnail_absolute_url: string;
+  thumbnail_url: string;
 
   is_active: boolean;
 
@@ -65,4 +83,7 @@ export interface Product {
 
   created_at: string;
   updated_at: string;
+
+  thumbnail_url: string;
+  images: string[];
 }

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title class="mat-text-primary">{{ dialogTitle | titlecase }}</h2>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+  <form autocomplete="off">
+    <div class="row">
+      <div class="col-12">
+        <small class="text-secondary">
+          NOTE: Allowed image resolution: {{ imageUploadConfigs.MAX_DIM[0] }} x {{ imageUploadConfigs.MAX_DIM[1] }}
+          pixels and size: {{ imageUploadConfigs.MAX_SIZE_MB }} MB
+        </small>
+
+        <div class="img-container">
+          <ngx-spinner [fullScreen]="false" name="uploadingSpinner" size="default"
+                       type="ball-clip-rotate" class="snippet-spinner img-upload-spinner">
+            <p>Uploading...</p>
+          </ngx-spinner>
+
+          <img class="img-fluid" [src]="imagePreview">
+          <div class="img-error-message"></div>
+          <input type="file" #fileInputEl (change)="uploadFile(fileInputEl?.files?.item(0))"
+                 accept="image/x-png,image/gif,image/jpeg,image/pjpeg" style="display: none;"></div>
+      </div>
+    </div>
+  </form>
+  <br>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-actions *ngIf="!fileUploadTracker.showProgress">
+  <button mat-stroked-button (click)="onCloseDialog()">
+    <mat-icon>close</mat-icon> Close
+  </button>
+  &nbsp;
+  <button mat-stroked-button color="primary" *ngIf="!isImageUploaded"
+          (click)="fileInputEl.click()">
+    <mat-icon>upload_file</mat-icon> Select Image
+  </button>
+</mat-dialog-actions>

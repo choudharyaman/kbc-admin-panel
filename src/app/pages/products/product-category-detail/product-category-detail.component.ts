@@ -54,8 +54,8 @@ export class ProductCategoryDetailComponent {
     this.tableDataSource = new MatTableDataSource(this.tablePaginatorParams?.results ?? []);
     this.tableDataSource.sort = this.tableSort;
 
-    if (this.productCategory.thumbnail_absolute_url) {
-      this.productCategoryThumbnail = this.productCategory.thumbnail_absolute_url;
+    if (this.productCategory.thumbnail_url) {
+      this.productCategoryThumbnail = this.productCategory.thumbnail_url;
     }
   }
 

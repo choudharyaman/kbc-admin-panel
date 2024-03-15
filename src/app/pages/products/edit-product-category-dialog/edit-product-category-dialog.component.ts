@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ProductCategory} from '../../../models/product.model';
+import {ProductCategory, ProductImage} from '../../../models/product.model';
 import {ProductService} from '../../../services/product.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -60,8 +60,8 @@ export class EditProductCategoryDialogComponent {
         is_active: this.category.is_active
       });
 
-      if (this.category.thumbnail_absolute_url) {
-        this.categoryImgFilePath = this.category.thumbnail_absolute_url;
+      if (this.category.thumbnail_url) {
+        this.categoryImgFilePath = this.category.thumbnail_url;
       }
 
       console.log("this.category", this.category);
@@ -153,7 +153,8 @@ export class EditProductCategoryDialogComponent {
       this.fileUploadTracker.showProgress = true;
       this.fileUploadTracker.progress = 0;
 
-      this.fileUploadService.uploadCategoryImage(file).subscribe(res => {
+      const categoryId = this.category ? this.category.id : null;
+      this.fileUploadService.uploadProductCategoryImage(null, file).subscribe(res => {
 
         console.log('res', res);
 
@@ -163,8 +164,9 @@ export class EditProductCategoryDialogComponent {
         } else if (response.status === 'complete') {
           this.spinner.hide("uploadingSpinner");
 
-          this.categoryImgFilePath = response.message.data.file_absolute_path;
-          this.form.controls['thumbnail'].patchValue(response.message.data.file_id);
+          const imgObj: ProductImage = response.message.data as ProductImage;
+          this.categoryImgFilePath = imgObj.file_absolute_path;
+          this.form.controls['thumbnail'].patchValue(imgObj.id);
           this.form.controls['thumbnail'].markAsDirty();
           Toast.fire({
             icon: "success",

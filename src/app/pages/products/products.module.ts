@@ -9,6 +9,7 @@ import { EditProductCategoryDialogComponent } from './edit-product-category-dial
 import { EditProductComponent } from './edit-product/edit-product.component';
 import {AngularEditorModule} from '@kolkov/angular-editor';
 import { ProductCategoryDetailComponent } from './product-category-detail/product-category-detail.component';
+import { ProductImageUploadDialogComponent } from './edit-product/product-image-upload-dialog/product-image-upload-dialog.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ProductCategoryDetailComponent } from './product-category-detail/produc
     ListProductCategoriesComponent,
     EditProductCategoryDialogComponent,
     EditProductComponent,
-    ProductCategoryDetailComponent
+    ProductCategoryDetailComponent,
+    ProductImageUploadDialogComponent
   ],
   imports: [
     CommonModule,

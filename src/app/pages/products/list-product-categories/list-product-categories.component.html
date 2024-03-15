@@ -32,7 +32,7 @@
           <tr (click)="onViewProductCategory(category)">
             <td>
               <img class="category-thumbnail"
-                   [src]="category.thumbnail_absolute_url ? category.thumbnail_absolute_url : defaultCategoryThumbnail">
+                   [src]="category.thumbnail_url ? category.thumbnail_url : defaultCategoryThumbnail">
             </td>
             <td>
               <b class="mat-text-primary">{{ category.name }}</b>
@@ -54,7 +54,7 @@
           <tr *ngFor="let childCategory of category.child_categories" (click)="onViewProductCategory(childCategory)">
             <td>
               <img class="category-thumbnail"
-                   [src]="childCategory.thumbnail_absolute_url ? childCategory.thumbnail_absolute_url : defaultCategoryThumbnail">
+                   [src]="childCategory.thumbnail_url ? childCategory.thumbnail_url : defaultCategoryThumbnail">
             </td>
             <td>
               <b>— {{ childCategory.name }} </b> <small>({{ category.name }})</small>

@@ -43,13 +43,13 @@
                         <mat-select formControlName="target_link" required>
                           <ng-container *ngFor="let cat of activeProductCategories;">
                             <mat-option [value]="cat.id">
-                              <img height="40px" [src]="cat.thumbnail_absolute_url ? cat.thumbnail_absolute_url : defaultCategoryThumbnail">
+                              <img height="40px" [src]="cat.thumbnail_url ? cat.thumbnail_url : defaultCategoryThumbnail">
                               &nbsp;&nbsp;
                               <b>{{ cat.name }}</b>
                             </mat-option>
                             <mat-option *ngFor="let subCat of cat.child_categories" [value]="subCat.id">
                               --&nbsp;
-                              <img height="40px" [src]="subCat.thumbnail_absolute_url ? cat.thumbnail_absolute_url : defaultCategoryThumbnail">
+                              <img height="40px" [src]="subCat.thumbnail_url ? subCat.thumbnail_url : defaultCategoryThumbnail">
                               &nbsp;&nbsp;
                               {{subCat.name}} <small>({{ cat.name }})</small>
                             </mat-option>

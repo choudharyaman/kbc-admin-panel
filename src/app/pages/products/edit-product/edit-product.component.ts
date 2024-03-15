@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {ProductService} from '../../../services/product.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Product, ProductCategory, ProductType} from '../../../models/product.model';
+import {Product, ProductCategory, ProductImage, ProductImageRole, ProductType} from '../../../models/product.model';
 import {Discount, DiscountType} from '../../../models/discount.model';
 import {Tax} from '../../../models/tax.model';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ import {Toast} from '../../../utils/toast';
 import {debounceTime, distinctUntilChanged} from 'rxjs';
 import {QueryParamsMeta, ResponseData} from '../../../models/paginator.model';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {ProductImageUploadDialogComponent} from './product-image-upload-dialog/product-image-upload-dialog.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -45,6 +46,8 @@ export class EditProductComponent {
 
   searchProductInputField = new FormControl(null);
 
+  imageRole = ProductImageRole;
+
   htmlEditorConfig: AngularEditorConfig  = {
     minHeight: "150px",
     editable: true,
@@ -57,6 +60,8 @@ export class EditProductComponent {
   }
 
   form: FormGroup;
+
+  defaultProductImage = "assets/images/default-product-img.png";
 
   constructor(private route: ActivatedRoute, private router: Router, private dialogBox: MatDialog,
               private productService: ProductService, private snackBar: MatSnackBar,
@@ -285,6 +290,29 @@ export class EditProductComponent {
         });
       }
     });
+  }
+
+  /* Upload Product Image Fn */
+  onUploadProductImage(imageRole: string, image: string | undefined) {
+    this.dialogBox.open(ProductImageUploadDialogComponent, {
+      width: "410px",
+      disableClose: true,
+      data: {
+        product: this.product,
+        imagePreview: image || this.defaultProductImage,
+        imageRole: imageRole,
+        dialogTitle: `Product ${imageRole} Image`
+      }
+    }).afterClosed().subscribe(result => {
+      // this.fetchProduct()
+      console.log('result', result)
+      if (result.action == 'image-uploaded') {
+        const productImage: ProductImage = result.productImage;
+        if (productImage.image_role === ProductImageRole.THUMBNAIL) {
+          (this.product as Product).thumbnail_url = productImage.file_absolute_path;
+        }
+      }
+    })
   }
 
   onAddProductCategory(selectedCategory: ProductCategory) {

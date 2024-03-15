@@ -255,6 +255,7 @@
         </mat-card>
       </div>
       <div class="col-4">
+        <!-- Product Category -->
         <mat-card>
           <mat-card-content>
             <h4 class="text-primary">Product Categories</h4>
@@ -308,6 +309,7 @@
           </mat-card-content>
         </mat-card>
         <br>
+        <!-- Related Product -->
         <mat-card>
           <mat-card-content><h4 class="text-primary">Related Products</h4>
             <mat-nav-list>
@@ -340,6 +342,23 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <!-- Thumbnail -->
+        <mat-card>
+          <mat-card-content>
+            <h4 class="text-primary">Product Thumbnail</h4>
+            <div class="text-center">
+              <div class="img-thumbnail">
+                <img style="width: 100%" [src]="product?.thumbnail_url ? product?.thumbnail_url : defaultProductImage">
+              </div>
+              <hr>
+              <button mat-stroked-button color="primary"
+                      (click)="onUploadProductImage(imageRole.THUMBNAIL, product?.thumbnail_url)">
+                <mat-icon>image</mat-icon> Change Thumbnail
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

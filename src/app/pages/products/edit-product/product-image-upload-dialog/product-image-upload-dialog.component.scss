@@ -1,0 +1,26 @@
+.img-container {
+  position: relative;
+}
+
+.img-container img, mat-form-field {
+  width: 100%
+}
+
+h2.mat-mdc-dialog-title {
+  font-size: 18px !important;
+}
+
+mat-dialog-content {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+
+  small {
+    font-size: 11px;
+  }
+}
+
+mat-dialog-actions {
+  display: block;
+  text-align: right;
+  padding: 10px 15px 20px
+}
