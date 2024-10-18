@@ -343,27 +343,27 @@
             <thead *ngIf="order.is_paid">
             <tr>
               <td>Paid at</td>
-              <th>{{ latestPaymentDetail.paid_at | date:'medium' }}</th>
+              <th>{{ order.paid_at | date:'medium' }}</th>
             </tr>
             <tr>
               <td>Used Payment Method</td>
-              <th>{{ latestPaymentDetail.payment_method }}</th>
+              <th>{{ order.used_payment_method }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="order.used_payment_method !== paymentMethods.CASH">
               <td>PG Order Id</td>
-              <th>{{ latestPaymentDetail.pg_order_id }}</th>
+              <th>{{ latestPaymentDetail?.pg_order_id }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="order.used_payment_method !== paymentMethods.CASH">
               <td>PG Pay Id</td>
-              <th>{{ latestPaymentDetail.pg_txn_id }}</th>
+              <th>{{ latestPaymentDetail?.pg_txn_id }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="order.used_payment_method !== paymentMethods.CASH">
               <td>IP Address</td>
-              <th>{{ latestPaymentDetail.ip_address }}</th>
+              <th>{{ latestPaymentDetail?.ip_address }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="order.used_payment_method !== paymentMethods.CASH">
               <td>Device</td>
-              <td>{{ latestPaymentDetail.device }} - {{ latestPaymentDetail.os }}({{ latestPaymentDetail.os_version }}
+              <td>{{ latestPaymentDetail?.device }} - {{ latestPaymentDetail?.os }}({{ latestPaymentDetail?.os_version }}
                 )
               </td>
             </tr>

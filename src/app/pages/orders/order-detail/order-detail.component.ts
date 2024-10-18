@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Order, OrderPaymentTransaction, OrderStatus} from '../../../models/order.model';
+import {Order, OrderPaymentTransaction, OrderStatus, PaymentMethod} from '../../../models/order.model';
 import {CourierAgent, DeliveryAgentType, DeliveryPerson} from '../../../models/delivery-agent.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
@@ -35,6 +35,7 @@ export class OrderDetailComponent {
 
   deliveryAgentTypes = DeliveryAgentType;
   orderStatuses = OrderStatus;
+  paymentMethods = PaymentMethod;
 
   constructor(private route: ActivatedRoute, private router: Router, private dialogBox: MatDialog,
               private orderService: OrderService, private spinner: NgxSpinnerService) {
